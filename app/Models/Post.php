@@ -29,6 +29,14 @@ class Post extends Model
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'post';
+    }
+
+    /**
      * Author of this Post.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
