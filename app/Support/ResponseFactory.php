@@ -107,9 +107,10 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
         $document = new Document($collection);
 
         $document->setLinks([
-            'self' => $paginator->url($paginator->currentPage()),
-            'prev' => $paginator->previousPageUrl(),
-            'next' => $paginator->nextPageUrl(),
+            'first' => $paginator->url(1),
+            'last'  => $paginator->url($paginator->lastPage()),
+            'prev'  => $paginator->previousPageUrl(),
+            'next'  => $paginator->nextPageUrl(),
         ]);
 
         return $this->jsonApiSpec($document->toArray(), $status, $headers, $options);
