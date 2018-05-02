@@ -22,6 +22,13 @@ class Post extends Model
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    protected $dates = [
+        'published_at',
+    ];
+
+    /**
      * Author of this Post.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
