@@ -3,10 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\Authenticate;
+use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
+    /**
+     * Authentication.
+     *
+     * @var Auth
+     */
+    private $auth;
+
+    /**
+     * Auth controller constructor.
+     *
+     * @param Auth $auth
+     */
+    public function __construct(Auth $auth)
+    {
+        $this->auth = $auth;
+    }
+
     /**
      * Authenticate a User.
      *
@@ -30,7 +48,7 @@ class AuthController extends Controller
         return response()->jsonApiSpec([
             'access_token' => $token,
             'token_type'   => 'bearer',
-            'expires_in'   => auth()->factory()->getTTL() * 60,
+            'expires_in'   => $this->auth->factory()->getTTL() * 60,
         ]);
     }
 
@@ -41,7 +59,7 @@ class AuthController extends Controller
      */
     public function invalidate(): JsonResponse
     {
-        auth()->logout();
+        $this->auth->logout();
 
         return response()->jsonApiSpec([
             'meta' => [
