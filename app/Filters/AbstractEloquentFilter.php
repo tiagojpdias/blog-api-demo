@@ -19,13 +19,6 @@ abstract class AbstractEloquentFilter implements AbstractFilter
     protected $columns = ['*'];
 
     /**
-     * Columns to group by
-     *
-     * @var string|array
-     */
-    protected $groupBy;
-
-    /**
      * Sort column.
      *
      * @var string
