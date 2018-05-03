@@ -19,6 +19,6 @@ $factory->define(Post::class, function (Faker $faker) {
         'title'        => $faker->unique()->sentence,
         'slug'         => $faker->unique()->slug,
         'content'      => $faker->unique()->paragraphs(4, true),
-        'published_at' => $faker->dateTime,
+        'published_at' => $faker->boolean ? $faker->dateTimeBetween('now', '+2 months') : null,
     ];
 });
