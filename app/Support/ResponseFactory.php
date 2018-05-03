@@ -117,6 +117,11 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
             'next'  => $paginator->nextPageUrl(),
         ]);
 
+        $document->setMeta([
+            'per-page' => $paginator->perPage(),
+            'total'    => $paginator->total(),
+        ]);
+
         return $this->jsonApiSpec($document->toArray(), $status, $headers, $options);
     }
 
