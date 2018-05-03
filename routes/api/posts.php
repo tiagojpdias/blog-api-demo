@@ -9,7 +9,7 @@ use App\Http\Controllers\PostController;
 |
 */
 
-$router->prefix('posts')->group(function () use ($router) {
+$router->prefix('posts')->middleware(['api-auth'])->group(function () use ($router) {
     $router->get('/', [
         'as'   => 'posts.list.published',
         'uses' => PostController::class.'@listPublished',
