@@ -31,7 +31,7 @@ class FilterServiceProvider extends ServiceProvider
 
         foreach ($filters as $interface => $concrete) {
             $this->app->singleton($interface, function () use ($concrete) {
-                return new $concrete;
+                return new $concrete();
             });
         }
     }

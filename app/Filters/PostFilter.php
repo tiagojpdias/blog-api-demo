@@ -9,9 +9,9 @@ interface PostFilter extends AbstractFilter
      *
      * @param array $authors
      *
-     * @return PostFilter
+     * @return self
      */
-    public function withAuthors(array $authors): PostFilter;
+    public function withAuthors(array $authors): self;
 
     /**
      * Add published filtering.
@@ -20,5 +20,5 @@ interface PostFilter extends AbstractFilter
      *
      * @return PostFilter
      */
-    public function withPublished(bool $published): PostFilter;
+    public function withPublished(bool $published): self;
 }

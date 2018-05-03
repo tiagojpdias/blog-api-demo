@@ -17,12 +17,13 @@ use Tobscure\JsonApi\Resource;
 class ResponseFactory extends \Illuminate\Routing\ResponseFactory
 {
     /**
-     * JSON API Spec Response
+     * JSON API Spec Response.
      *
      * @param mixed $data
      * @param int   $status
      * @param array $headers
      * @param int   $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function jsonApiSpec($data = [], $status = 200, array $headers = [], $options = 0): JsonResponse
@@ -35,7 +36,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Resource Response
+     * JSON API Spec Resource Response.
      *
      * @param Model              $resource
      * @param AbstractSerializer $serializer
@@ -43,6 +44,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
      * @param int                $status
      * @param array              $headers
      * @param int                $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function resource(
@@ -60,7 +62,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Collection Response
+     * JSON API Spec Collection Response.
      *
      * @param IlluminateCollection $collection
      * @param AbstractSerializer   $serializer
@@ -68,6 +70,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
      * @param int                  $status
      * @param array                $headers
      * @param int                  $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function collection(
@@ -85,7 +88,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Paginator Response
+     * JSON API Spec Paginator Response.
      *
      * @param LengthAwarePaginator $paginator
      * @param AbstractSerializer   $serializer
@@ -93,6 +96,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
      * @param int                  $status
      * @param array                $headers
      * @param int                  $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function paginator(
@@ -117,11 +121,12 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Error Response (HTTP Exceptions)
+     * JSON API Spec Error Response (HTTP Exceptions).
      *
      * @param HttpException $exception
      * @param array         $headers
      * @param int           $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function httpError(HttpException $exception, array $headers = [], $options = 0): JsonResponse
@@ -139,11 +144,12 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Error Response (Validation)
+     * JSON API Spec Error Response (Validation).
      *
      * @param ValidationException $exception
      * @param array               $headers
      * @param int                 $options
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function validationError(ValidationException $exception, array $headers = [], $options = 0): JsonResponse

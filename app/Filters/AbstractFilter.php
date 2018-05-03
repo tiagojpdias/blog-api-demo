@@ -9,9 +9,9 @@ interface AbstractFilter
      *
      * @param int $number
      *
-     * @return AbstractFilter
+     * @return self
      */
-    public function setPageNumber(int $number): AbstractFilter;
+    public function setPageNumber(int $number): self;
 
     /**
      * Get page number.
@@ -25,9 +25,9 @@ interface AbstractFilter
      *
      * @param int $items
      *
-     * @return AbstractFilter
+     * @return self
      */
-    public function setItemsPerPage(int $items): AbstractFilter;
+    public function setItemsPerPage(int $items): self;
 
     /**
      * Get items per page.
@@ -51,18 +51,18 @@ interface AbstractFilter
      * @param string $column
      * @param string $order
      *
-     * @return AbstractFilter
+     * @return self
      */
-    public function sortBy(string $column, string $order): AbstractFilter;
+    public function sortBy(string $column, string $order): self;
 
     /**
      * Add search pattern filtering.
      *
      * @param string $pattern
      *
-     * @return AbstractFilter
+     * @return self
      */
-    public function withSearchPattern(string $pattern): AbstractFilter;
+    public function withSearchPattern(string $pattern): self;
 
     /**
      * Get the columns to be selected.
@@ -76,9 +76,9 @@ interface AbstractFilter
      *
      * @param array
      *
-     * @return AbstractFilter
+     * @return self
      */
-    public function setColumns(array $columns): AbstractFilter;
+    public function setColumns(array $columns): self;
 
     /**
      * Apply filters to a Query builder.

@@ -38,6 +38,6 @@ class PostSerializer extends AbstractSerializer
      */
     public function author(Post $post): Relationship
     {
-        return new Relationship(new Resource($post->author, new UserSerializer));
+        return new Relationship(new Resource($post->author, new UserSerializer()));
     }
 }
