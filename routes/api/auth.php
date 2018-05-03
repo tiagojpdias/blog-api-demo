@@ -14,4 +14,9 @@ $router->prefix('auth')->group(function () use ($router) {
         'as'   => 'auth.authenticate',
         'uses' => AuthController::class.'@authenticate',
     ]);
+
+    $router->put('/invalidate', [
+        'as'   => 'auth.invalidate',
+        'uses' => AuthController::class.'@invalidate',
+    ])->middleware(['api-auth']);
 });

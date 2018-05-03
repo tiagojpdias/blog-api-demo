@@ -33,4 +33,20 @@ class AuthController extends Controller
             'expires_in'   => auth()->factory()->getTTL() * 60,
         ]);
     }
+
+    /**
+     * Invalidate the current User's token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function invalidate(): JsonResponse
+    {
+        auth()->logout();
+
+        return response()->jsonApiSpec([
+            'meta' => [
+                'info' => 'The token has been invalidated',
+            ],
+        ]);
+    }
 }
