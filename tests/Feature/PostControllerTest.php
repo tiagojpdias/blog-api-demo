@@ -5,17 +5,22 @@ namespace Tests\Feature;
 use App\Models\Post;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Tymon\JWTAuth\Http\Middleware\Authenticate;
 
 class PostControllerTest extends TestCase
 {
     use RefreshDatabase;
 
     /**
+     * @group posts::list::published
      * @test
      */
     public function itFailsToGetPublishedPostsDueToValidationErrors(): void
     {
-        $response = $this->json('GET', '/posts', [
+        // Bypass API authentication
+        $this->withoutMiddleware(Authenticate::class);
+
+        $response = $this->json('GET', route('posts.list.published'), [
             'page'     => 'foo',
             'per_page' => 'bar',
             'search'   => 123,
@@ -68,13 +73,17 @@ class PostControllerTest extends TestCase
     }
 
     /**
+     * @group posts::list::published
      * @test
      */
     public function itSuccessfullyReturnsPublishedPosts(): void
     {
+        // Bypass API authentication
+        $this->withoutMiddleware(Authenticate::class);
+
         factory(Post::class, 20)->create();
 
-        $response = $this->json('GET', '/posts');
+        $response = $this->json('GET', route('posts.list.published'));
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -117,6 +126,10 @@ class PostControllerTest extends TestCase
                         'updated_at',
                     ],
                 ],
+            ],
+            'meta' => [
+                'per-page',
+                'total',
             ],
         ]);
     }
