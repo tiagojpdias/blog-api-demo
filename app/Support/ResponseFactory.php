@@ -13,6 +13,7 @@ use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\Resource;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class ResponseFactory extends \Illuminate\Routing\ResponseFactory
 {
@@ -169,5 +170,28 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
         }
 
         return $this->jsonApiSpec($errors, $exception->status, $headers, $options);
+    }
+
+    /**
+     * JSON API Spec JWT Error Response.
+     *
+     * @param JWTException $exception
+     * @param array        $headers
+     * @param int          $options
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function jwtError(JWTException $exception, array $headers = [], $options = 0): JsonResponse
+    {
+        $errors = [
+            'errors' => [
+                [
+                    'id'     => $exception->getCode(),
+                    'detail' => $exception->getMessage(),
+                ],
+            ],
+        ];
+
+        return $this->jsonApiSpec($errors, 400, $headers, $options);
     }
 }
