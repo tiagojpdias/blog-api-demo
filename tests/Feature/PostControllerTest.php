@@ -30,31 +30,38 @@ class PostControllerTest extends TestCase
 
         $response->assertStatus(422);
         $response->assertJson([
-            'message' => 'The given data was invalid.',
             'errors' => [
-                'page' => [
-                    'The page must be an integer.',
+                [
+                    'id'     => 'page',
+                    'detail' => 'The page must be an integer.',
                 ],
-                'per_page' => [
-                    'The per page must be an integer.',
+                [
+                    'id'     => 'per_page',
+                    'detail' => 'The per page must be an integer.',
                 ],
-                'search' => [
-                    'The search must be a string.',
+                [
+                    'id'     => 'search',
+                    'detail' => 'The search must be a string.',
                 ],
-                'sort' => [
-                    'The selected sort is invalid.',
+                [
+                    'id'     => 'sort',
+                    'detail' => 'The selected sort is invalid.',
                 ],
-                'order' => [
-                    'The selected order is invalid.',
+                [
+                    'id'     => 'order',
+                    'detail' => 'The selected order is invalid.',
                 ],
-                'authors.0' => [
-                    'The selected authors.0 is invalid.',
+                [
+                    'id'     => 'authors.0',
+                    'detail' => 'The selected authors.0 is invalid.',
                 ],
-                'authors.1' => [
-                  'The selected authors.1 is invalid.',
+                [
+                    'id'     => 'authors.1',
+                    'detail' => 'The selected authors.1 is invalid.',
                 ],
-                'authors.2' => [
-                    'The selected authors.2 is invalid.',
+                [
+                    'id'     => 'authors.2',
+                    'detail' => 'The selected authors.2 is invalid.',
                 ],
             ],
         ]);
