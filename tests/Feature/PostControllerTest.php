@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Tymon\JWTAuth\Http\Middleware\Authenticate;
@@ -122,6 +123,103 @@ class PostControllerTest extends TestCase
                     'attributes' => [
                         'name',
                         'email',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
+            ],
+            'meta' => [
+                'per-page',
+                'total',
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::list::private
+     * @test
+     */
+    public function itFailsToGetPrivatePostsDueToValidationErrors(): void
+    {
+        $user = factory(User::class)->create();
+        $token = auth()->tokenById($user->id);
+
+        $response = $this->json('GET', route('posts.list.private'), [
+            'page'      => 'foo',
+            'per_page'  => 'bar',
+            'search'    => 123,
+            'sort'      => 'baz',
+            'order'     => 'waz',
+            'published' => 7,
+        ], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 'page',
+                    'detail' => 'The page must be an integer.',
+                ],
+                [
+                    'id'     => 'per_page',
+                    'detail' => 'The per page must be an integer.',
+                ],
+                [
+                    'id'     => 'search',
+                    'detail' => 'The search must be a string.',
+                ],
+                [
+                    'id'     => 'published',
+                    'detail' => 'The published field must be true or false.',
+                ],
+                [
+                    'id'     => 'sort',
+                    'detail' => 'The selected sort is invalid.',
+                ],
+                [
+                    'id'     => 'order',
+                    'detail' => 'The selected order is invalid.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::list::private
+     * @test
+     */
+    public function itSuccessfullyReturnsPrivatePosts(): void
+    {
+        $user = factory(User::class)->create();
+        $token = auth()->tokenById($user->id);
+
+        factory(Post::class, 20)->create([
+            'author_id' => $user->id,
+        ]);
+
+        $response = $this->json('GET', route('posts.list.private'), [], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+            'data' => [
+                '*' => [
+                    'type',
+                    'id',
+                    'attributes' => [
+                        'title',
+                        'slug',
+                        'content',
+                        'published_at',
                         'created_at',
                         'updated_at',
                     ],
