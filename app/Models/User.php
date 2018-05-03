@@ -28,6 +28,14 @@ class User extends Model implements AuthorizableContract
     ];
 
     /**
+     * {@inheritdoc}
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'user';
+    }
+
+    /**
      * User Posts.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
