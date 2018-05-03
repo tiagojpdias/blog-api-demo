@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\Login;
+use App\Http\Requests\Auth\Authenticate;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
     /**
-     * Get a JWT via given credentials.
+     * Authenticate a User.
      *
-     * @param Login $request
+     * @param Authenticate $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Login $request): JsonResponse
+    public function authenticate(Authenticate $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
 

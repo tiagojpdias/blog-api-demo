@@ -4,7 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\Request;
 
-class Login extends Request
+class Authenticate extends Request
 {
     /**
      * {@inheritdoc}

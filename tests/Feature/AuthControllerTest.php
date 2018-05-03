@@ -15,7 +15,7 @@ class AuthControllerTest extends TestCase
      */
     public function itFailsToAuthenticateDueToValidationErrors(): void
     {
-        $response = $this->json('POST', '/auth/login', [
+        $response = $this->json('POST', '/auth/authenticate', [
             'email' => 'foo',
         ]);
 
@@ -39,7 +39,7 @@ class AuthControllerTest extends TestCase
      */
     public function itFailsToAuthenticateDueToInvalidCredentials(): void
     {
-        $response = $this->json('POST', '/auth/login', [
+        $response = $this->json('POST', '/auth/authenticate', [
             'email'    => 'john.doe@email.com',
             'password' => 's3cr3t',
         ]);
@@ -62,7 +62,7 @@ class AuthControllerTest extends TestCase
             'password' => 's3cr3t',
         ]);
 
-        $response = $this->json('POST', '/auth/login', [
+        $response = $this->json('POST', '/auth/authenticate', [
             'email'    => $user->email,
             'password' => 's3cr3t',
         ]);
