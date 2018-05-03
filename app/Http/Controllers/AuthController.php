@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\Authenticate;
+use App\Http\Requests\Auth\AuthenticateUser;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\JsonResponse;
 
@@ -44,11 +44,11 @@ class AuthController extends Controller
     /**
      * Authenticate a User.
      *
-     * @param Authenticate $request
+     * @param AuthenticateUser $request
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function authenticate(Authenticate $request): JsonResponse
+    public function authenticate(AuthenticateUser $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
 
