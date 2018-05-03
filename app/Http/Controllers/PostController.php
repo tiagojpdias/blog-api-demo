@@ -25,7 +25,7 @@ class PostController extends Controller
         PostRepository $postRepository
     ): JsonResponse {
         $filter->sortBy($request->input('sort', 'created_at'), $request->input('order', 'desc'))
-            ->setItemsPerPage($request->input('items', 10))
+            ->setItemsPerPage($request->input('per_page', 10))
             ->setPageNumber($request->input('page', 1));
 
         // Make sure we only get published Posts
