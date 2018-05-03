@@ -24,7 +24,7 @@ class ListPrivatePosts extends Request
             'page' => [
                 'integer',
             ],
-            'items' => [
+            'per_page' => [
                 'integer',
             ],
             'search' => [
