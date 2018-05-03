@@ -26,6 +26,22 @@ class AuthController extends Controller
     }
 
     /**
+     * Generate a JWT token response.
+     *
+     * @param string $token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function tokenResponse(string $token): JsonResponse
+    {
+        return response()->jsonApiSpec([
+            'access_token' => $token,
+            'token_type'   => 'bearer',
+            'expires_in'   => $this->auth->factory()->getTTL() * 60,
+        ]);
+    }
+
+    /**
      * Authenticate a User.
      *
      * @param Authenticate $request
@@ -45,11 +61,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        return response()->jsonApiSpec([
-            'access_token' => $token,
-            'token_type'   => 'bearer',
-            'expires_in'   => $this->auth->factory()->getTTL() * 60,
-        ]);
+        return $this->tokenResponse($token);
     }
 
     /**
@@ -66,5 +78,15 @@ class AuthController extends Controller
                 'info' => 'The token has been invalidated',
             ],
         ]);
+    }
+
+    /**
+     * Refresh the current User's token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refresh(): JsonResponse
+    {
+        return $this->tokenResponse($this->auth->refresh());
     }
 }

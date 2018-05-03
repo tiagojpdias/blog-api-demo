@@ -19,4 +19,9 @@ $router->prefix('auth')->group(function () use ($router) {
         'as'   => 'auth.invalidate',
         'uses' => AuthController::class.'@invalidate',
     ])->middleware(['api-auth']);
+
+    $router->post('/refresh', [
+        'as'   => 'auth.refresh',
+        'uses' => AuthController::class.'@refresh',
+    ])->middleware(['api-auth']);
 });
