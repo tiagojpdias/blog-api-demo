@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Filters\PostFilter;
 use App\Http\Requests\Post\CreatePost;
+use App\Http\Requests\Post\DeletePost;
 use App\Http\Requests\Post\ListOwnPosts;
 use App\Http\Requests\Post\ListPosts;
+use App\Http\Requests\Post\UpdatePost;
 use App\Http\Serializers\PostSerializer;
 use App\Models\Post;
 use App\Repositories\PostRepository;
@@ -95,5 +97,56 @@ class PostController extends Controller
         $post->save();
 
         return response()->resource($post, new PostSerializer());
+    }
+
+    /**
+     * Update a Post.
+     *
+     * @param UpdatePost $request
+     * @param Post       $post
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(UpdatePost $request, Post $post): JsonResponse
+    {
+        if ($title = $request->get('title')) {
+            $post->title = $title;
+        }
+
+        if ($content = $request->get('content')) {
+            $post->content = $content;
+        }
+
+        if ($publishedAt = $request->get('published_at')) {
+            $post->published_at = $publishedAt;
+        }
+
+        $post->save();
+
+        return response()->resource($post, new PostSerializer());
+    }
+
+    /**
+     * Delete an Article.
+     *
+     * @param DeletePost $request
+     * @param Post       $post
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(DeletePost $request, Post $post): JsonResponse
+    {
+        try {
+            $post->delete();
+
+            return response()->resource($post, new PostSerializer());
+        } catch (\Exception $exception) {
+            return response()->jsonApiSpec([
+                'errors' => [
+                    'title'  => 'Internal Server Error',
+                    'detail' => 'Unable to delete Article',
+                ],
+            ], 500);
+        }
     }
 }

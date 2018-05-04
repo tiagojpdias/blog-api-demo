@@ -24,4 +24,14 @@ $router->prefix('posts')->middleware(['api-auth'])->group(function () use ($rout
         'as'   => 'posts.create',
         'uses' => PostController::class.'@create',
     ]);
+
+    $router->put('/{post}', [
+        'as'   => 'posts.update',
+        'uses' => PostController::class.'@update',
+    ]);
+
+    $router->delete('/{post}', [
+        'as'   => 'posts.delete',
+        'uses' => PostController::class.'@delete',
+    ]);
 });
