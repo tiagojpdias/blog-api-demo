@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
+    use Sluggable;
+
     /**
      * {@inheritdoc}
      */
@@ -27,6 +30,18 @@ class Post extends Model
     protected $dates = [
         'published_at',
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
 
     /**
      * {@inheritdoc}
