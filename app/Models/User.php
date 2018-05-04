@@ -32,14 +32,6 @@ class User extends Model implements AuthenticableContract, AuthorizableContract,
     ];
 
     /**
-     * {@inheritdoc}
-     */
-    public function getRouteKeyName(): string
-    {
-        return 'user';
-    }
-
-    /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
      * @return mixed

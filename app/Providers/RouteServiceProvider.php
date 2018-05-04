@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Post;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -17,9 +20,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+
+        $this->modelBinder();
     }
 
     /**
@@ -40,11 +43,11 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function mapWebRoutes(): void
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -54,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         Route::group([
             'middleware' => 'api',
@@ -62,5 +65,30 @@ class RouteServiceProvider extends ServiceProvider
             require base_path('routes/api/auth.php');
             require base_path('routes/api/posts.php');
         });
+    }
+
+    /**
+     * Model binder.
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return void
+     */
+    protected function modelBinder(): void
+    {
+        $models = [
+            'post' => Post::class,
+            'user' => User::class,
+        ];
+
+        foreach ($models as $key => $fqcn) {
+            Route::bind($key, function ($id) use ($fqcn) {
+                if (!$model = $fqcn::find($id)) {
+                    throw new NotFoundHttpException(sprintf('%s Not Found', class_basename($fqcn)));
+                }
+
+                return $model;
+            });
+        }
     }
 }
