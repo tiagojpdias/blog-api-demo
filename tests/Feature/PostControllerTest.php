@@ -3,25 +3,21 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use Tymon\JWTAuth\Http\Middleware\Authenticate;
 
 class PostControllerTest extends TestCase
 {
+    use ApiUser;
     use RefreshDatabase;
 
     /**
-     * @group posts::list::published
+     * @group posts::list
      * @test
      */
     public function itFailsToGetPublishedPostsDueToValidationErrors(): void
     {
-        // Bypass API authentication
-        $this->withoutMiddleware(Authenticate::class);
-
-        $response = $this->json('GET', route('posts.list.published'), [
+        $response = $this->json('GET', route('posts.list'), [
             'page'     => 'foo',
             'per_page' => 'bar',
             'search'   => 123,
@@ -32,6 +28,8 @@ class PostControllerTest extends TestCase
                 8,
                 16,
             ],
+        ], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
         $response->assertStatus(422);
@@ -74,17 +72,16 @@ class PostControllerTest extends TestCase
     }
 
     /**
-     * @group posts::list::published
+     * @group posts::list
      * @test
      */
     public function itSuccessfullyReturnsPublishedPosts(): void
     {
-        // Bypass API authentication
-        $this->withoutMiddleware(Authenticate::class);
-
         factory(Post::class, 20)->create();
 
-        $response = $this->json('GET', route('posts.list.published'));
+        $response = $this->json('GET', route('posts.list'), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
@@ -136,15 +133,12 @@ class PostControllerTest extends TestCase
     }
 
     /**
-     * @group posts::list::private
+     * @group posts::list::own
      * @test
      */
-    public function itFailsToGetPrivatePostsDueToValidationErrors(): void
+    public function itFailsToGetOwnPostsDueToValidationErrors(): void
     {
-        $user = factory(User::class)->create();
-        $token = auth()->tokenById($user->id);
-
-        $response = $this->json('GET', route('posts.list.private'), [
+        $response = $this->json('GET', route('posts.list.own'), [
             'page'      => 'foo',
             'per_page'  => 'bar',
             'search'    => 123,
@@ -152,7 +146,7 @@ class PostControllerTest extends TestCase
             'order'     => 'waz',
             'published' => 7,
         ], [
-            'Authorization' => sprintf('Bearer %s', $token),
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
         $response->assertStatus(422);
@@ -187,20 +181,17 @@ class PostControllerTest extends TestCase
     }
 
     /**
-     * @group posts::list::private
+     * @group posts::list::own
      * @test
      */
-    public function itSuccessfullyReturnsPrivatePosts(): void
+    public function itSuccessfullyReturnsOwnPosts(): void
     {
-        $user = factory(User::class)->create();
-        $token = auth()->tokenById($user->id);
-
         factory(Post::class, 20)->create([
-            'author_id' => $user->id,
+            'author_id' => $this->getApiUser()->id,
         ]);
 
-        $response = $this->json('GET', route('posts.list.private'), [], [
-            'Authorization' => sprintf('Bearer %s', $token),
+        $response = $this->json('GET', route('posts.list.own'), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
         $response->assertStatus(200);
@@ -238,14 +229,11 @@ class PostControllerTest extends TestCase
      */
     public function itFailsToCreatePostDueToValidationErrors(): void
     {
-        $user = factory(User::class)->create();
-        $token = auth()->tokenById($user->id);
-
         $response = $this->json('POST', route('posts.create'), [
             'title'        => str_repeat('foo', 100),
             'published_at' => 123,
         ], [
-            'Authorization' => sprintf('Bearer %s', $token),
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
         $response->assertStatus(422);
@@ -273,15 +261,12 @@ class PostControllerTest extends TestCase
      */
     public function itSuccessfullyCreatesPost(): void
     {
-        $user = factory(User::class)->create();
-        $token = auth()->tokenById($user->id);
-
         $response = $this->json('POST', route('posts.create'), [
             'title'        => 'Article Title',
             'content'      => 'Article content.',
             'published_at' => '2000-01-02 00:11:22',
         ], [
-            'Authorization' => sprintf('Bearer %s', $token),
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
         $response->assertStatus(200);
