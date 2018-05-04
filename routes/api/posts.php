@@ -19,4 +19,9 @@ $router->prefix('posts')->middleware(['api-auth'])->group(function () use ($rout
         'as'   => 'posts.list.private',
         'uses' => PostController::class.'@listPrivate',
     ]);
+
+    $router->post('/', [
+        'as'   => 'posts.create',
+        'uses' => PostController::class.'@create',
+    ]);
 });

@@ -231,4 +231,73 @@ class PostControllerTest extends TestCase
             ],
         ]);
     }
+
+    /**
+     * @group posts::create
+     * @test
+     */
+    public function itFailsToCreatePostDueToValidationErrors(): void
+    {
+        $user = factory(User::class)->create();
+        $token = auth()->tokenById($user->id);
+
+        $response = $this->json('POST', route('posts.create'), [
+            'title'        => str_repeat('foo', 100),
+            'published_at' => 123,
+        ], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 'title',
+                    'detail' => 'The title may not be greater than 255 characters.',
+                ],
+                [
+                    'id'     => 'content',
+                    'detail' => 'The content field is required.',
+                ],
+                [
+                    'id'     => 'published_at',
+                    'detail' => 'The published at is not a valid date.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::create
+     * @test
+     */
+    public function itSuccessfullyCreatesPost(): void
+    {
+        $user = factory(User::class)->create();
+        $token = auth()->tokenById($user->id);
+
+        $response = $this->json('POST', route('posts.create'), [
+            'title'        => 'Article Title',
+            'content'      => 'Article content.',
+            'published_at' => '2000-01-02 00:11:22',
+        ], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
 }

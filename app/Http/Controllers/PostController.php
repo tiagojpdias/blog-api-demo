@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Filters\PostFilter;
+use App\Http\Requests\Post\CreatePost;
 use App\Http\Requests\Post\ListPrivatePosts;
 use App\Http\Requests\Post\ListPublishedPosts;
 use App\Http\Serializers\PostSerializer;
+use App\Models\Post;
 use App\Repositories\PostRepository;
 use Illuminate\Http\JsonResponse;
 
@@ -75,5 +77,29 @@ class PostController extends Controller
         $posts = $postRepository->getPaginator($filter);
 
         return response()->paginator($posts, new PostSerializer());
+    }
+
+    /**
+     * Create a Post.
+     *
+     * @param CreatePost $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function create(CreatePost $request): JsonResponse
+    {
+        $post = new Post();
+
+        $post->author_id = $request->user()->id;
+        $post->title = $request->get('title');
+        $post->content = $request->get('content');
+
+        if ($publishedAt = $request->get('published_at')) {
+            $post->published_at = $publishedAt;
+        }
+
+        $post->save();
+
+        return response()->resource($post, new PostSerializer());
     }
 }
