@@ -112,7 +112,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return response()->resource($post, new PostSerializer());
+        return response()->resource($post, new PostSerializer(), [], 201);
     }
 
     /**

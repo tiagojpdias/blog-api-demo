@@ -411,7 +411,7 @@ class PostControllerTest extends TestCase
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $response->assertJsonStructure([
             'data' => [
                 'type',
