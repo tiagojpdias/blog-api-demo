@@ -32,6 +32,24 @@ class PostPolicy
     }
 
     /**
+     * Determine whether the User can read a Post.
+     *
+     * @param User $user
+     * @param Post $post
+     *
+     * @return bool
+     */
+    public function read(User $user, Post $post): bool
+    {
+        if ($post->isPublished()) {
+            return true;
+        }
+
+        // An unpublished Post can only be read by its author
+        return $post->author_id == $user->id;
+    }
+
+    /**
      * Determine whether the User can create Posts.
      *
      * @param User $user

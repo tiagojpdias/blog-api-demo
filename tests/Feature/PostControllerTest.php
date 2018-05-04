@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Post;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -219,6 +220,147 @@ class PostControllerTest extends TestCase
             'meta' => [
                 'per-page',
                 'total',
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::read
+     * @test
+     */
+    public function itFailsToReadPostDueToNotFoundError(): void
+    {
+        $response = $this->json('GET', route('posts.read', ['post' => 123]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'Post Not Found',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::read
+     * @test
+     */
+    public function itFailsToReadUnpublishedPostFromAnotherAuthor(): void
+    {
+        $post = factory(Post::class)->create([
+            'published_at' => null,
+        ]);
+
+        $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(403);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'This action is unauthorized.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::read
+     * @test
+     */
+    public function itSuccessfullyReadsPublishedPostFromAnotherAuthor(): void
+    {
+        $post = factory(Post::class)->create([
+            'published_at' => Carbon::now(),
+        ]);
+
+        $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::read
+     * @test
+     */
+    public function itSuccessfullyReadsOwnUnpublishedPost(): void
+    {
+        $post = factory(Post::class)->create([
+            'author_id'    => $this->getApiUser()->id,
+            'published_at' => null,
+        ]);
+
+        $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::read
+     * @test
+     */
+    public function itSuccessfullyReadsOwnPublishedPost(): void
+    {
+        $post = factory(Post::class)->create([
+            'author_id'    => $this->getApiUser()->id,
+            'published_at' => Carbon::now(),
+        ]);
+
+        $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
             ],
         ]);
     }

@@ -25,6 +25,11 @@ $router->prefix('posts')->middleware(['api-auth'])->group(function () use ($rout
         'uses' => PostController::class.'@create',
     ]);
 
+    $router->get('/{post}', [
+        'as'   => 'posts.read',
+        'uses' => PostController::class.'@read',
+    ]);
+
     $router->put('/{post}', [
         'as'   => 'posts.update',
         'uses' => PostController::class.'@update',

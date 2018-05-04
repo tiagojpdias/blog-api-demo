@@ -7,6 +7,7 @@ use App\Http\Requests\Post\CreatePost;
 use App\Http\Requests\Post\DeletePost;
 use App\Http\Requests\Post\ListOwnPosts;
 use App\Http\Requests\Post\ListPosts;
+use App\Http\Requests\Post\ReadPost;
 use App\Http\Requests\Post\UpdatePost;
 use App\Http\Serializers\PostSerializer;
 use App\Models\Post;
@@ -73,6 +74,21 @@ class PostController extends Controller
         $posts = $postRepository->getPaginator($filter);
 
         return response()->paginator($posts, new PostSerializer());
+    }
+
+    /**
+     * Read a Post.
+     *
+     * @param ReadPost $request
+     * @param Post     $post
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function read(ReadPost $request, Post $post): JsonResponse
+    {
+        return response()->resource($post, new PostSerializer(), [
+            'author',
+        ]);
     }
 
     /**

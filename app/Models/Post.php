@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,6 +42,16 @@ class Post extends Model
                 'source' => 'title',
             ],
         ];
+    }
+
+    /**
+     * Check if the Post is published.
+     *
+     * @return bool
+     */
+    public function isPublished(): bool
+    {
+        return $this->published_at instanceof Carbon;
     }
 
     /**
