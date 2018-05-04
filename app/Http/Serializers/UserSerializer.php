@@ -34,7 +34,7 @@ class UserSerializer extends AbstractSerializer
      *
      * @return \Tobscure\JsonApi\Relationship
      */
-    public function questions(User $user): Relationship
+    public function posts(User $user): Relationship
     {
         return new Relationship(new Collection($user->posts, new PostSerializer()));
     }
