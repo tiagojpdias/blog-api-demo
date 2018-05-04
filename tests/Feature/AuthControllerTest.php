@@ -70,7 +70,7 @@ class AuthControllerTest extends TestCase
             'password' => 's3cr3t',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $response->assertJsonStructure([
             'access_token',
             'token_type',
