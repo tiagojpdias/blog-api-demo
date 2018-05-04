@@ -11,11 +11,12 @@ class AuthControllerTest extends TestCase
     use RefreshDatabase;
 
     /**
+     * @group auth::authenticate
      * @test
      */
-    public function itFailsToAuthenticateDueToValidationErrors(): void
+    public function itWillNotAuthenticateDueToValidationErrors(): void
     {
-        $response = $this->json('POST', '/auth/authenticate', [
+        $response = $this->json('POST', route('auth.authenticate'), [
             'email' => 'foo',
         ]);
 
@@ -35,11 +36,12 @@ class AuthControllerTest extends TestCase
     }
 
     /**
+     * @group auth::authenticate
      * @test
      */
-    public function itFailsToAuthenticateDueToInvalidCredentials(): void
+    public function itWillNotAuthenticateDueToInvalidCredentials(): void
     {
-        $response = $this->json('POST', '/auth/authenticate', [
+        $response = $this->json('POST', route('auth.authenticate'), [
             'email'    => 'john.doe@email.com',
             'password' => 's3cr3t',
         ]);
@@ -54,15 +56,16 @@ class AuthControllerTest extends TestCase
     }
 
     /**
+     * @group auth::authenticate
      * @test
      */
-    public function itSuccessfullyAuthenticates(): void
+    public function itWillSuccessfullyAuthenticate(): void
     {
         $user = factory(User::class)->create([
             'password' => 's3cr3t',
         ]);
 
-        $response = $this->json('POST', '/auth/authenticate', [
+        $response = $this->json('POST', route('auth.authenticate'), [
             'email'    => $user->email,
             'password' => 's3cr3t',
         ]);
