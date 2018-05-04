@@ -285,4 +285,195 @@ class PostControllerTest extends TestCase
             ],
         ]);
     }
+
+    /**
+     * @group posts::update
+     * @test
+     */
+    public function itFailsToUpdatePostDueToNotFoundError(): void
+    {
+        $response = $this->json('PUT', route('posts.update', ['post' => 123]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'Post Not Found',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::update
+     * @test
+     */
+    public function itFailsToUpdatePostDueToAuthorisationError(): void
+    {
+        $post = factory(Post::class)->create();
+
+        $response = $this->json('PUT', route('posts.update', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(403);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'This action is unauthorized.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::update
+     * @test
+     */
+    public function itFailsToUpdatePostDueToValidationErrors(): void
+    {
+        $post = factory(Post::class)->create([
+            'author_id' => $this->getApiUser()->id,
+        ]);
+
+        $response = $this->json('PUT', route('posts.update', ['post' => $post->id]), [
+            'title'        => str_repeat('foo', 100),
+            'content'      => false,
+            'published_at' => 123,
+        ], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 'title',
+                    'detail' => 'The title may not be greater than 255 characters.',
+                ],
+                [
+                    'id'     => 'content',
+                    'detail' => 'The content must be a string.',
+                ],
+                [
+                    'id'     => 'published_at',
+                    'detail' => 'The published at is not a valid date.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::update
+     * @test
+     */
+    public function itSuccessfullyUpdatesPost(): void
+    {
+        $post = factory(Post::class)->create([
+            'author_id' => $this->getApiUser()->id,
+        ]);
+
+        $response = $this->json('PUT', route('posts.update', ['post' => $post->id]), [
+            'title'        => 'Article Title',
+            'content'      => 'Article content.',
+            'published_at' => '2000-01-02 00:11:22',
+        ], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::delete
+     * @test
+     */
+    public function itFailsToDeletePostDueToNotFoundError(): void
+    {
+        $response = $this->json('DELETE', route('posts.delete', ['post' => 123]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(404);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'Post Not Found',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::delete
+     * @test
+     */
+    public function itFailsToDeletePostDueToAuthorisationError(): void
+    {
+        $post = factory(Post::class)->create();
+
+        $response = $this->json('DELETE', route('posts.delete', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(403);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'This action is unauthorized.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group posts::update
+     * @test
+     */
+    public function itSuccessfullyDeletesPost(): void
+    {
+        $post = factory(Post::class)->create([
+            'author_id' => $this->getApiUser()->id,
+        ]);
+
+        $response = $this->json('DELETE', route('posts.delete', ['post' => $post->id]), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'type',
+                'id',
+                'attributes' => [
+                    'title',
+                    'slug',
+                    'content',
+                    'published_at',
+                    'created_at',
+                    'updated_at',
+                ],
+            ],
+        ]);
+    }
 }
