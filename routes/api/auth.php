@@ -18,10 +18,12 @@ $router->prefix('auth')->group(function () use ($router) {
     $router->put('/invalidate', [
         'as'   => 'auth.invalidate',
         'uses' => AuthController::class.'@invalidate',
-    ])->middleware(['api-auth']);
+    ])
+    ->middleware(['api-auth']);
 
     $router->post('/refresh', [
         'as'   => 'auth.refresh',
         'uses' => AuthController::class.'@refresh',
-    ])->middleware(['api-auth']);
+    ])
+    ->middleware(['api-auth']);
 });
