@@ -127,7 +127,7 @@ class PostController extends Controller
     }
 
     /**
-     * Delete an Article.
+     * Delete a Post.
      *
      * @param DeletePost $request
      * @param Post       $post
@@ -144,7 +144,7 @@ class PostController extends Controller
             return response()->jsonApiSpec([
                 'errors' => [
                     'title'  => 'Internal Server Error',
-                    'detail' => 'Unable to delete Article',
+                    'detail' => 'Unable to delete Post',
                 ],
             ], 500);
         }

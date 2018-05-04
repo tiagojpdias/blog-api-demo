@@ -8,7 +8,7 @@ use App\Models\User;
 class PostPolicy
 {
     /**
-     * Determine whether the User can list published Articles.
+     * Determine whether the User can list published Posts.
      *
      * @param User $user
      *
@@ -20,7 +20,7 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the User can list his own Articles.
+     * Determine whether the User can list his own Posts.
      *
      * @param User $user
      *
@@ -32,7 +32,7 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the User can create Articles.
+     * Determine whether the User can create Posts.
      *
      * @param User $user
      *
@@ -44,30 +44,30 @@ class PostPolicy
     }
 
     /**
-     * Determine whether the User can update Articles.
+     * Determine whether the User can update Posts.
      *
      * @param User $user
-     * @param Post $article
+     * @param Post $post
      *
      * @return bool
      */
-    public function update(User $user, Post $article): bool
+    public function update(User $user, Post $post): bool
     {
         // A Post can only be updated by its author
-        return $article->author_id === $user->id;
+        return $post->author_id === $user->id;
     }
 
     /**
-     * Determine whether the User can delete Articles.
+     * Determine whether the User can delete Posts.
      *
      * @param User $user
-     * @param Post $article
+     * @param Post $post
      *
      * @return bool
      */
-    public function delete(User $user, Post $article): bool
+    public function delete(User $user, Post $post): bool
     {
         // A Post can only be deleted by its author
-        return $article->author_id === $user->id;
+        return $post->author_id === $user->id;
     }
 }
