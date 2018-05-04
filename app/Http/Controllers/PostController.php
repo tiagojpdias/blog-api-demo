@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Filters\PostFilter;
 use App\Http\Requests\Post\CreatePost;
-use App\Http\Requests\Post\ListPrivatePosts;
-use App\Http\Requests\Post\ListPublishedPosts;
+use App\Http\Requests\Post\ListOwnPosts;
+use App\Http\Requests\Post\ListPosts;
 use App\Http\Serializers\PostSerializer;
 use App\Models\Post;
 use App\Repositories\PostRepository;
@@ -14,19 +14,16 @@ use Illuminate\Http\JsonResponse;
 class PostController extends Controller
 {
     /**
-     * List published Posts.
+     * List Posts.
      *
-     * @param ListPublishedPosts $request
-     * @param PostFilter         $filter
-     * @param PostRepository     $postRepository
+     * @param ListPosts      $request
+     * @param PostFilter     $filter
+     * @param PostRepository $postRepository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function listPublished(
-        ListPublishedPosts $request,
-        PostFilter $filter,
-        PostRepository $postRepository
-    ): JsonResponse {
+    public function list(ListPosts $request, PostFilter $filter, PostRepository $postRepository): JsonResponse
+    {
         $filter->sortBy($request->input('sort', 'created_at'), $request->input('order', 'desc'))
             ->setItemsPerPage($request->input('per_page', 10))
             ->setPageNumber($request->input('page', 1));
@@ -46,19 +43,16 @@ class PostController extends Controller
     }
 
     /**
-     * List private (own) Posts.
+     * List own Posts (including unpublished).
      *
-     * @param ListPrivatePosts $request
-     * @param PostFilter       $filter
-     * @param PostRepository   $postRepository
+     * @param ListOwnPosts   $request
+     * @param PostFilter     $filter
+     * @param PostRepository $postRepository
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function listPrivate(
-        ListPrivatePosts $request,
-        PostFilter $filter,
-        PostRepository $postRepository
-    ): JsonResponse {
+    public function listOwn(ListOwnPosts $request, PostFilter $filter, PostRepository $postRepository): JsonResponse
+    {
         $filter->sortBy($request->input('sort', 'created_at'), $request->input('order', 'desc'))
             ->setItemsPerPage($request->input('items', 10))
             ->setPageNumber($request->input('page', 1));

@@ -3,16 +3,17 @@
 namespace App\Http\Requests\Post;
 
 use App\Http\Requests\Request;
+use App\Models\Post;
 use Illuminate\Validation\Rule;
 
-class ListPrivatePosts extends Request
+class ListPosts extends Request
 {
     /**
      * {@inheritdoc}
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('list', Post::class);
     }
 
     /**
@@ -30,9 +31,8 @@ class ListPrivatePosts extends Request
             'search' => [
                 'string',
             ],
-            'published' => [
-                'nullable',
-                'boolean',
+            'authors.*' => [
+                Rule::exists('users', 'id'),
             ],
             'sort' => [
                 Rule::in([

@@ -11,13 +11,13 @@ use App\Http\Controllers\PostController;
 
 $router->prefix('posts')->middleware(['api-auth'])->group(function () use ($router) {
     $router->get('/', [
-        'as'   => 'posts.list.published',
-        'uses' => PostController::class.'@listPublished',
+        'as'   => 'posts.list',
+        'uses' => PostController::class.'@list',
     ]);
 
-    $router->get('/my', [
-        'as'   => 'posts.list.private',
-        'uses' => PostController::class.'@listPrivate',
+    $router->get('/own', [
+        'as'   => 'posts.list.own',
+        'uses' => PostController::class.'@listOwn',
     ]);
 
     $router->post('/', [

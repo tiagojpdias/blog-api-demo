@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Post;
 
 use App\Http\Requests\Request;
+use App\Models\Post;
 
 class CreatePost extends Request
 {
@@ -11,7 +12,7 @@ class CreatePost extends Request
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->user()->can('create', Post::class);
     }
 
     /**
