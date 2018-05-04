@@ -17,7 +17,6 @@ $factory->define(Post::class, function (Faker $faker) {
             return factory(User::class)->create()->id;
         },
         'title'        => $faker->unique()->sentence,
-        'slug'         => $faker->unique()->slug,
         'content'      => $faker->unique()->paragraphs(4, true),
         'published_at' => $faker->boolean ? $faker->dateTimeBetween('now', '+2 months') : null,
     ];
