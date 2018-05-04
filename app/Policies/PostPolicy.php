@@ -54,7 +54,7 @@ class PostPolicy
     public function update(User $user, Post $post): bool
     {
         // A Post can only be updated by its author
-        return $post->author_id === $user->id;
+        return $post->author_id == $user->id;
     }
 
     /**
@@ -68,6 +68,6 @@ class PostPolicy
     public function delete(User $user, Post $post): bool
     {
         // A Post can only be deleted by its author
-        return $post->author_id === $user->id;
+        return $post->author_id == $user->id;
     }
 }
