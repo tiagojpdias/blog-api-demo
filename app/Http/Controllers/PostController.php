@@ -155,17 +155,8 @@ class PostController extends Controller
      */
     public function delete(DeletePost $request, Post $post): JsonResponse
     {
-        try {
-            $post->delete();
+        $post->delete();
 
-            return response()->resource($post, new PostSerializer());
-        } catch (\Exception $exception) {
-            return response()->jsonApiSpec([
-                'errors' => [
-                    'title'  => 'Internal Server Error',
-                    'detail' => 'Unable to delete Post',
-                ],
-            ], 500);
-        }
+        return response()->resource($post, new PostSerializer());
     }
 }
