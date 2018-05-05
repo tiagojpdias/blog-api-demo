@@ -139,4 +139,75 @@ class AuthControllerTest extends TestCase
             'expires_in',
         ]);
     }
+
+    /**
+     * @group auth::invalidate
+     * @test
+     */
+    public function itWillSuccessfullyInvalidate(): void
+    {
+        $response = $this->json('PUT', route('auth.invalidate'), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'meta' => [
+                'info',
+            ],
+        ]);
+    }
+
+    /**
+     * @group auth::invalidate
+     * @test
+     */
+    public function itWillSuccessfullyDetectBlacklistedTokenAfterInvalidation(): void
+    {
+        $token = $this->generateApiUserToken();
+
+        $response = $this->json('PUT', route('auth.invalidate'), [], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'meta' => [
+                'info',
+            ],
+        ]);
+
+        // Perform a second request with the already invalidated token
+        $response = $this->json('PUT', route('auth.invalidate'), [], [
+            'Authorization' => sprintf('Bearer %s', $token),
+        ]);
+
+        $response->assertStatus(401);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'The token has been blacklisted',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group auth::refresh
+     * @test
+     */
+    public function itWillSuccessfullyRefresh(): void
+    {
+        $response = $this->json('POST', route('auth.refresh'), [], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'access_token',
+            'token_type',
+            'expires_in',
+        ]);
+    }
 }
