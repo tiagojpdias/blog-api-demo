@@ -203,11 +203,11 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('GET', route('posts.list.own'), [
-            'page'     => 2,
-            'per_page' => 5,
-            'search'   => 'a',
-            'sort'     => 'created_at',
-            'order'    => 'asc',
+            'page'      => 2,
+            'per_page'  => 5,
+            'search'    => 'a',
+            'sort'      => 'created_at',
+            'order'     => 'asc',
             'published' => false,
         ], [
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
