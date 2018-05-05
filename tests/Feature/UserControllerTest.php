@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -9,6 +10,94 @@ class UserControllerTest extends TestCase
 {
     use ApiUser;
     use RefreshDatabase;
+
+    /**
+     * @group users::list
+     * @test
+     */
+    public function itFailsToGetUsersDueToValidationErrors(): void
+    {
+        $response = $this->json('GET', route('users.list'), [
+            'page'     => 'foo',
+            'per_page' => 'bar',
+            'search'   => 123,
+            'sort'     => 'baz',
+            'order'    => 'waz',
+        ], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 'page',
+                    'detail' => 'The page must be an integer.',
+                ],
+                [
+                    'id'     => 'per_page',
+                    'detail' => 'The per page must be an integer.',
+                ],
+                [
+                    'id'     => 'search',
+                    'detail' => 'The search must be a string.',
+                ],
+                [
+                    'id'     => 'sort',
+                    'detail' => 'The selected sort is invalid.',
+                ],
+                [
+                    'id'     => 'order',
+                    'detail' => 'The selected order is invalid.',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group users::list
+     * @test
+     */
+    public function itSuccessfullyReturnsUsers(): void
+    {
+        factory(User::class, 20)->create();
+
+        $response = $this->json('GET', route('users.list'), [
+            'page'     => 2,
+            'per_page' => 5,
+            'search'   => 'a',
+            'sort'     => 'id',
+            'order'    => 'asc',
+        ], [
+            'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'links' => [
+                'first',
+                'last',
+                'prev',
+                'next',
+            ],
+            'data' => [
+                '*' => [
+                    'type',
+                    'id',
+                    'attributes' => [
+                        'name',
+                        'email',
+                        'created_at',
+                        'updated_at',
+                    ],
+                ],
+            ],
+            'meta' => [
+                'per-page',
+                'total',
+            ],
+        ]);
+    }
 
     /**
      * @group users::profile
