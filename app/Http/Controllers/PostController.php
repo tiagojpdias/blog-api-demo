@@ -38,6 +38,10 @@ class PostController extends Controller
             $filter->withAuthors($authors);
         }
 
+        if ($search = $request->input('search')) {
+            $filter->withSearchPattern($search);
+        }
+
         $posts = $postRepository->getPaginator($filter, Post::query());
 
         return response()->paginator($posts, new PostSerializer(), [
@@ -64,6 +68,10 @@ class PostController extends Controller
 
         if ($published !== null) {
             $filter->withPublished($published);
+        }
+
+        if ($search = $request->input('search')) {
+            $filter->withSearchPattern($search);
         }
 
         $posts = $postRepository->getPaginator($filter, $request->user()->posts());
