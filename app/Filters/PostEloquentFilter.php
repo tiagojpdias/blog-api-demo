@@ -67,12 +67,8 @@ class PostEloquentFilter extends AbstractEloquentFilter implements PostFilter
         }
 
         // Apply published state filter
-        if ($this->published === true) {
-            $queryBuilder->whereNotNull('posts.published_at');
-        }
-
-        if ($this->published === false) {
-            $queryBuilder->whereNull('posts.published_at');
+        if ($this->published !== null) {
+            $queryBuilder->{$this->published ? 'whereNotNull' : 'whereNull'}('posts.published_at');
         }
 
         // Apply sorting
