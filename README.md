@@ -1,5 +1,5 @@
 # Blog API demo
-[![StyleCI](https://styleci.io/repos/131721642/shield?branch=master)](https://styleci.io/repos/131721642) [![Build Status](https://travis-ci.org/quetzyg/blog-api-demo.svg?branch=master)](https://travis-ci.org/quetzyg/blog-api-demo)
+[![StyleCI](https://styleci.io/repos/131721642/shield?branch=master)](https://styleci.io/repos/131721642) [![Build Status](https://travis-ci.org/quetzyg/blog-api-demo.svg?branch=master)](https://travis-ci.org/quetzyg/blog-api-demo) [![codecov](https://codecov.io/gh/quetzyg/blog-api-demo/branch/master/graph/badge.svg)](https://codecov.io/gh/quetzyg/blog-api-demo)
 
 This is a Laravel 5.6 application for demoing a Blog API (JSON API spec), with a simple data structure, consisting of solely two tables (`users` and `posts`).
 
