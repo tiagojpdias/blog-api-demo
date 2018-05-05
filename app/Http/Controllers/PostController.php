@@ -38,7 +38,7 @@ class PostController extends Controller
             $filter->withAuthors($authors);
         }
 
-        $posts = $postRepository->getPaginator($filter);
+        $posts = $postRepository->getPaginator($filter, Post::query());
 
         return response()->paginator($posts, new PostSerializer(), [
             'author',
@@ -60,18 +60,13 @@ class PostController extends Controller
             ->setItemsPerPage($request->input('items', 10))
             ->setPageNumber($request->input('page', 1));
 
-        // Make sure we only get Posts from the current User
-        $filter->withAuthors([
-            $request->user('api')->id,
-        ]);
-
         $published = $request->input('published');
 
         if ($published !== null) {
             $filter->withPublished($published);
         }
 
-        $posts = $postRepository->getPaginator($filter);
+        $posts = $postRepository->getPaginator($filter, $request->user()->posts());
 
         return response()->paginator($posts, new PostSerializer());
     }

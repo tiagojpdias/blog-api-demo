@@ -11,8 +11,9 @@ interface PostRepository
      * Get a Post paginator.
      *
      * @param PostFilter $filter
+     * @param mixed      $queryBuilder
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function getPaginator(PostFilter $filter): LengthAwarePaginator;
+    public function getPaginator(PostFilter $filter, $queryBuilder): LengthAwarePaginator;
 }
