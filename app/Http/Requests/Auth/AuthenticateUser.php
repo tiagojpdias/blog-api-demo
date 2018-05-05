@@ -9,14 +9,6 @@ class AuthenticateUser extends Request
     /**
      * {@inheritdoc}
      */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function rules(): array
     {
         return [
