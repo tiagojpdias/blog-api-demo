@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\PostEloquentRepository;
 use App\Repositories\PostRepository;
+use App\Repositories\UserEloquentRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider
@@ -27,6 +29,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $repositories = [
             PostRepository::class => PostEloquentRepository::class,
+            UserRepository::class => UserEloquentRepository::class,
         ];
 
         foreach ($repositories as $interface => $concrete) {
