@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Filters\PostEloquentFilter;
 use App\Filters\PostFilter;
+use App\Filters\UserEloquentFilter;
+use App\Filters\UserFilter;
 use Illuminate\Support\ServiceProvider;
 
 class FilterServiceProvider extends ServiceProvider
@@ -27,6 +29,7 @@ class FilterServiceProvider extends ServiceProvider
     {
         $filters = [
             PostFilter::class => PostEloquentFilter::class,
+            UserFilter::class => UserEloquentFilter::class,
         ];
 
         foreach ($filters as $interface => $concrete) {
