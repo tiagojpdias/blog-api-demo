@@ -62,32 +62,6 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Collection Response.
-     *
-     * @param IlluminateCollection $collection
-     * @param AbstractSerializer   $serializer
-     * @param array                $relationships
-     * @param int                  $status
-     * @param array                $headers
-     * @param int                  $options
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function collection(
-        IlluminateCollection $collection,
-        AbstractSerializer $serializer,
-        array $relationships = [],
-        $status = 200,
-        array $headers = [],
-        $options = 0
-    ): JsonResponse {
-        $collection = (new Collection($collection, $serializer))->with($relationships);
-        $document = new Document($collection);
-
-        return $this->jsonApiSpec($document->toArray(), $status, $headers, $options);
-    }
-
-    /**
      * JSON API Paginator Response.
      *
      * @param LengthAwarePaginator $paginator
