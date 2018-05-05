@@ -1,3 +1,4 @@
+/coverage
 /node_modules
 /public/hot
 /public/storage
@@ -6,6 +7,7 @@
 /.idea
 /.vscode
 /.vagrant
+coverage.xml
 Homestead.json
 Homestead.yaml
 npm-debug.log
