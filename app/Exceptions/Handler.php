@@ -37,6 +37,13 @@ class Handler extends ExceptionHandler
             return response()->validationError($exception);
         }
 
-        return parent::render($request, $exception);
+        return response()->jsonApiSpec([
+            'errors' => [
+                [
+                    'id'     => $exception->getCode(),
+                    'detail' => $exception->getMessage(),
+                ],
+            ],
+        ], 500);
     }
 }
