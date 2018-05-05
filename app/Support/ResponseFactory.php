@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use Exception;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -13,12 +14,11 @@ use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Document;
 use Tobscure\JsonApi\Resource;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class ResponseFactory extends \Illuminate\Routing\ResponseFactory
 {
     /**
-     * JSON API Spec Response.
+     * JSON API Response.
      *
      * @param mixed $data
      * @param int   $status
@@ -37,7 +37,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Resource Response.
+     * JSON API Resource Response.
      *
      * @param Model              $resource
      * @param AbstractSerializer $serializer
@@ -63,7 +63,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Collection Response.
+     * JSON API Collection Response.
      *
      * @param IlluminateCollection $collection
      * @param AbstractSerializer   $serializer
@@ -89,7 +89,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Paginator Response.
+     * JSON API Paginator Response.
      *
      * @param LengthAwarePaginator $paginator
      * @param AbstractSerializer   $serializer
@@ -127,7 +127,31 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Error Response (HTTP Exceptions).
+     * JSON API Error Response (Exception).
+     *
+     * @param Exception $exception
+     * @param int       $status
+     * @param array     $headers
+     * @param int       $options
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function exceptionError(Exception $exception, int $status, array $headers = [], $options = 0): JsonResponse
+    {
+        $errors = [
+            'errors' => [
+                [
+                    'id'     => $exception->getCode(),
+                    'detail' => $exception->getMessage(),
+                ],
+            ],
+        ];
+
+        return $this->jsonApiSpec($errors, $status, $headers, $options);
+    }
+
+    /**
+     * JSON API Error Response (HTTP Exceptions).
      *
      * @param HttpException $exception
      * @param array         $headers
@@ -150,7 +174,7 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Spec Error Response (Validation).
+     * JSON API Error Response (Validation).
      *
      * @param ValidationException $exception
      * @param array               $headers
@@ -170,28 +194,5 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
         }
 
         return $this->jsonApiSpec($errors, $exception->status, $headers, $options);
-    }
-
-    /**
-     * JSON API Spec JWT Error Response.
-     *
-     * @param JWTException $exception
-     * @param array        $headers
-     * @param int          $options
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function jwtError(JWTException $exception, array $headers = [], $options = 0): JsonResponse
-    {
-        $errors = [
-            'errors' => [
-                [
-                    'id'     => $exception->getCode(),
-                    'detail' => $exception->getMessage(),
-                ],
-            ],
-        ];
-
-        return $this->jsonApiSpec($errors, 400, $headers, $options);
     }
 }

@@ -39,7 +39,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof JWTException) {
-            return response()->jwtError($exception);
+            return response()->exceptionError($exception, 400);
         }
 
         return parent::render($request, $exception);
