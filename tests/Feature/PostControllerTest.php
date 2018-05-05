@@ -78,9 +78,20 @@ class PostControllerTest extends TestCase
      */
     public function itSuccessfullyReturnsPublishedPosts(): void
     {
-        factory(Post::class, 20)->create();
+        $posts = factory(Post::class, 20)->create();
 
-        $response = $this->json('GET', route('posts.list'), [], [
+        $authors = $posts->map(function (Post $post) {
+            return $post->author_id;
+        });
+
+        $response = $this->json('GET', route('posts.list'), [
+            'page'     => 1,
+            'per_page' => 50,
+            'search'   => 'a',
+            'sort'     => 'created_at',
+            'order'    => 'asc',
+            'authors'  => $authors,
+        ], [
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -191,7 +202,14 @@ class PostControllerTest extends TestCase
             'author_id' => $this->getApiUser()->id,
         ]);
 
-        $response = $this->json('GET', route('posts.list.own'), [], [
+        $response = $this->json('GET', route('posts.list.own'), [
+            'page'     => 2,
+            'per_page' => 5,
+            'search'   => 'a',
+            'sort'     => 'created_at',
+            'order'    => 'asc',
+            'published' => false,
+        ], [
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
