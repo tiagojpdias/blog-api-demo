@@ -102,7 +102,10 @@ abstract class AbstractEloquentFilter implements AbstractFilter
      */
     public function sortBy(string $column, string $order): AbstractFilter
     {
-        $this->sortColumn = $column;
+        if (in_array($column, static::validSortColumns(), true)) {
+            $this->sortColumn = $column;
+        }
+
         $this->sortOrder = $order;
 
         return $this;
@@ -146,5 +149,8 @@ abstract class AbstractEloquentFilter implements AbstractFilter
     {
         // Specify which columns to retrieve
         $queryBuilder->addSelect($this->getColumns());
+
+        // Apply sorting
+        $queryBuilder->orderBy($this->column($this->sortColumn), $this->sortOrder);
     }
 }

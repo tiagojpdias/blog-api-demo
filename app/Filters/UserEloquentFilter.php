@@ -12,6 +12,22 @@ class UserEloquentFilter extends AbstractEloquentFilter implements UserFilter
     /**
      * {@inheritdoc}
      */
+    protected $sortColumn = 'id';
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function validSortColumns(): array
+    {
+        return [
+            'id',
+            'name',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function applyTo($queryBuilder): void
     {
         parent::applyTo($queryBuilder);
@@ -23,19 +39,6 @@ class UserEloquentFilter extends AbstractEloquentFilter implements UserFilter
                     $query->orWhere('users.name', 'LIKE', '%'.$pattern.'%');
                 }
             });
-        }
-
-        // Apply sorting
-        if ($this->sortColumn) {
-            switch ($this->sortColumn) {
-                case 'name':
-                    $queryBuilder->orderBy($this->column($this->sortColumn), $this->sortOrder);
-                    break;
-
-                default:
-                    $queryBuilder->orderBy('users.id', $this->sortOrder);
-                    break;
-            }
         }
     }
 }

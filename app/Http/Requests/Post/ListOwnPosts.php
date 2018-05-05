@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Post;
 
+use App\Filters\PostEloquentFilter;
 use App\Http\Requests\Request;
 use App\Models\Post;
 use Illuminate\Validation\Rule;
@@ -36,15 +37,7 @@ class ListOwnPosts extends Request
                 'boolean',
             ],
             'sort' => [
-                Rule::in([
-                    'id',
-                    'title',
-                    'slug',
-                    'content',
-                    'published_at',
-                    'created_at',
-                    'updated_at',
-                ]),
+                Rule::in(PostEloquentFilter::validSortColumns()),
             ],
             'order' => [
                 Rule::in([

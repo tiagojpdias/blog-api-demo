@@ -88,4 +88,11 @@ interface AbstractFilter
      * @return void
      */
     public function applyTo($queryBuilder): void;
+
+    /**
+     * Get valid columns for sorting filter results.
+     *
+     * @return array
+     */
+    public static function validSortColumns(): array;
 }

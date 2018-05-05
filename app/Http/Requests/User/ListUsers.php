@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Filters\UserEloquentFilter;
 use App\Http\Requests\Request;
 use App\Models\User;
 use Illuminate\Validation\Rule;
@@ -32,10 +33,7 @@ class ListUsers extends Request
                 'string',
             ],
             'sort' => [
-                Rule::in([
-                    'id',
-                    'name',
-                ]),
+                Rule::in(UserEloquentFilter::validSortColumns()),
             ],
             'order' => [
                 Rule::in([

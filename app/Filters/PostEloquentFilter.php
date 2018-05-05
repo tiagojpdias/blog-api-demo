@@ -46,6 +46,22 @@ class PostEloquentFilter extends AbstractEloquentFilter implements PostFilter
     /**
      * {@inheritdoc}
      */
+    public static function validSortColumns(): array
+    {
+        return [
+            'id',
+            'title',
+            'slug',
+            'content',
+            'published_at',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function applyTo($queryBuilder): void
     {
         parent::applyTo($queryBuilder);
@@ -69,24 +85,6 @@ class PostEloquentFilter extends AbstractEloquentFilter implements PostFilter
         // Apply published state filter
         if ($this->published !== null) {
             $queryBuilder->{$this->published ? 'whereNotNull' : 'whereNull'}('posts.published_at');
-        }
-
-        // Apply sorting
-        if ($this->sortColumn) {
-            switch ($this->sortColumn) {
-                case 'title':
-                case 'slug':
-                case 'content':
-                case 'published_at':
-                case 'updated_at':
-                case 'created_at':
-                    $queryBuilder->orderBy($this->column($this->sortColumn), $this->sortOrder);
-                    break;
-
-                default:
-                    $queryBuilder->orderBy('posts.created_at', $this->sortOrder);
-                    break;
-            }
         }
     }
 }
