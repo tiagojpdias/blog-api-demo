@@ -127,30 +127,6 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
     }
 
     /**
-     * JSON API Error Response (Exception).
-     *
-     * @param Exception $exception
-     * @param int       $status
-     * @param array     $headers
-     * @param int       $options
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function exceptionError(Exception $exception, int $status, array $headers = [], $options = 0): JsonResponse
-    {
-        $errors = [
-            'errors' => [
-                [
-                    'id'     => $exception->getCode(),
-                    'detail' => $exception->getMessage(),
-                ],
-            ],
-        ];
-
-        return $this->jsonApiSpec($errors, $status, $headers, $options);
-    }
-
-    /**
      * JSON API Error Response (HTTP Exceptions).
      *
      * @param HttpException $exception
