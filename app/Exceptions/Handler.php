@@ -6,7 +6,6 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {
@@ -36,10 +35,6 @@ class Handler extends ExceptionHandler
 
         if ($exception instanceof ValidationException) {
             return response()->validationError($exception);
-        }
-
-        if ($exception instanceof JWTException) {
-            return response()->exceptionError($exception, 400);
         }
 
         return parent::render($request, $exception);
