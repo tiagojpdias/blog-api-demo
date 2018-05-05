@@ -10,6 +10,11 @@ use App\Http\Controllers\UserController;
 */
 
 $router->prefix('users')->middleware(['api-auth'])->group(function () use ($router) {
+    $router->get('/', [
+        'as'   => 'users.list',
+        'uses' => UserController::class.'@list',
+    ]);
+
     $router->get('/profile', [
         'as'   => 'users.profile',
         'uses' => UserController::class.'@profile',
