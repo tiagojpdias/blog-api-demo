@@ -10,6 +10,11 @@ use App\Http\Controllers\AuthController;
 */
 
 $router->prefix('auth')->group(function () use ($router) {
+    $router->post('/register', [
+        'as'   => 'auth.register',
+        'uses' => AuthController::class.'@register',
+    ]);
+
     $router->post('/authenticate', [
         'as'   => 'auth.authenticate',
         'uses' => AuthController::class.'@authenticate',

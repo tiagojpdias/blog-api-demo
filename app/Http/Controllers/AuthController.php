@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Auth\AuthenticateUser;
+use App\Http\Requests\Auth\RegisterUser;
+use App\Http\Serializers\UserSerializer;
+use App\Models\User;
 use Illuminate\Contracts\Auth\Factory as Auth;
 use Illuminate\Http\JsonResponse;
 
@@ -39,6 +42,26 @@ class AuthController extends Controller
             'token_type'   => 'bearer',
             'expires_in'   => $this->auth->factory()->getTTL() * 60,
         ], 201);
+    }
+
+    /**
+     * Register a User.
+     *
+     * @param RegisterUser $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(RegisterUser $request): JsonResponse
+    {
+        $user = new User();
+
+        $user->name = $request->get('name');
+        $user->email = $request->get('email');
+        $user->password = $request->get('password');
+
+        $user->save();
+
+        return response()->resource($user, new UserSerializer(), [], 201);
     }
 
     /**
