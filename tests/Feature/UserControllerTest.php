@@ -31,24 +31,34 @@ class UserControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'page',
                     'detail' => 'The page must be an integer.',
+                    'meta' => [
+                        'field' => 'page',
+                    ],
                 ],
                 [
-                    'id'     => 'per_page',
                     'detail' => 'The per page must be an integer.',
+                    'meta' => [
+                        'field' => 'per_page',
+                    ],
                 ],
                 [
-                    'id'     => 'search',
                     'detail' => 'The search must be a string.',
+                    'meta' => [
+                        'field' => 'search',
+                    ],
                 ],
                 [
-                    'id'     => 'sort',
                     'detail' => 'The selected sort is invalid.',
+                    'meta' => [
+                        'field' => 'sort',
+                    ],
                 ],
                 [
-                    'id'     => 'order',
                     'detail' => 'The selected order is invalid.',
+                    'meta' => [
+                        'field' => 'order',
+                    ],
                 ],
             ],
         ]);
@@ -170,7 +180,7 @@ class UserControllerTest extends TestCase
     {
         $response = $this->json('PUT', route('users.profile.update'), [
             'name'     => str_repeat('foo', 100),
-            'email'    => 'something else entirely',
+            'email'    => str_repeat('bad email', 100),
             'password' => 123,
         ], [
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
@@ -180,16 +190,28 @@ class UserControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'name',
                     'detail' => 'The name may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'name',
+                    ],
                 ],
                 [
-                    'id'     => 'email',
                     'detail' => 'The email must be a valid email address.',
+                    'meta' => [
+                        'field' => 'email',
+                    ],
                 ],
                 [
-                    'id'     => 'password',
+                    'detail' => 'The email may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'email',
+                    ],
+                ],
+                [
                     'detail' => 'The password confirmation does not match.',
+                    'meta' => [
+                        'field' => 'password',
+                    ],
                 ],
             ],
         ]);

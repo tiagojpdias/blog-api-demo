@@ -37,36 +37,52 @@ class PostControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'page',
                     'detail' => 'The page must be an integer.',
+                    'meta' => [
+                        'field' => 'page',
+                    ],
                 ],
                 [
-                    'id'     => 'per_page',
                     'detail' => 'The per page must be an integer.',
+                    'meta' => [
+                        'field' => 'per_page',
+                    ],
                 ],
                 [
-                    'id'     => 'search',
                     'detail' => 'The search must be a string.',
+                    'meta' => [
+                        'field' => 'search',
+                    ],
                 ],
                 [
-                    'id'     => 'sort',
                     'detail' => 'The selected sort is invalid.',
+                    'meta' => [
+                        'field' => 'sort',
+                    ],
                 ],
                 [
-                    'id'     => 'order',
                     'detail' => 'The selected order is invalid.',
+                    'meta' => [
+                        'field' => 'order',
+                    ],
                 ],
                 [
-                    'id'     => 'authors.0',
                     'detail' => 'The selected authors.0 is invalid.',
+                    'meta' => [
+                        'field' => 'authors.0',
+                    ],
                 ],
                 [
-                    'id'     => 'authors.1',
                     'detail' => 'The selected authors.1 is invalid.',
+                    'meta' => [
+                        'field' => 'authors.1',
+                    ],
                 ],
                 [
-                    'id'     => 'authors.2',
                     'detail' => 'The selected authors.2 is invalid.',
+                    'meta' => [
+                        'field' => 'authors.2',
+                    ],
                 ],
             ],
         ]);
@@ -165,28 +181,40 @@ class PostControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'page',
                     'detail' => 'The page must be an integer.',
+                    'meta' => [
+                        'field' => 'page',
+                    ],
                 ],
                 [
-                    'id'     => 'per_page',
                     'detail' => 'The per page must be an integer.',
+                    'meta' => [
+                        'field' => 'per_page',
+                    ],
                 ],
                 [
-                    'id'     => 'search',
                     'detail' => 'The search must be a string.',
+                    'meta' => [
+                        'field' => 'search',
+                    ],
                 ],
                 [
-                    'id'     => 'published',
                     'detail' => 'The published field must be true or false.',
+                    'meta' => [
+                        'field' => 'published',
+                    ],
                 ],
                 [
-                    'id'     => 'sort',
                     'detail' => 'The selected sort is invalid.',
+                    'meta' => [
+                        'field' => 'sort',
+                    ],
                 ],
                 [
-                    'id'     => 'order',
                     'detail' => 'The selected order is invalid.',
+                    'meta' => [
+                        'field' => 'order',
+                    ],
                 ],
             ],
         ]);
@@ -400,16 +428,22 @@ class PostControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'title',
                     'detail' => 'The title may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'title',
+                    ],
                 ],
                 [
-                    'id'     => 'content',
                     'detail' => 'The content field is required.',
+                    'meta' => [
+                        'field' => 'content',
+                    ],
                 ],
                 [
-                    'id'     => 'published_at',
                     'detail' => 'The published at is not a valid date.',
+                    'meta' => [
+                        'field' => 'published_at',
+                    ],
                 ],
             ],
         ]);
@@ -512,16 +546,22 @@ class PostControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'title',
                     'detail' => 'The title may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'title',
+                    ],
                 ],
                 [
-                    'id'     => 'content',
                     'detail' => 'The content must be a string.',
+                    'meta' => [
+                        'field' => 'content',
+                    ],
                 ],
                 [
-                    'id'     => 'published_at',
                     'detail' => 'The published at is not a valid date.',
+                    'meta' => [
+                        'field' => 'published_at',
+                    ],
                 ],
             ],
         ]);

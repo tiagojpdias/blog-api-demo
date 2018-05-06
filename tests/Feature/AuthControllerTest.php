@@ -19,7 +19,7 @@ class AuthControllerTest extends TestCase
     {
         $response = $this->json('POST', route('auth.register'), [
             'name'     => str_repeat('foo', 100),
-            'email'    => 'something else entirely',
+            'email'    => str_repeat('bad email', 100),
             'password' => 123,
         ]);
 
@@ -27,16 +27,28 @@ class AuthControllerTest extends TestCase
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'name',
                     'detail' => 'The name may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'name',
+                    ],
                 ],
                 [
-                    'id'     => 'email',
                     'detail' => 'The email must be a valid email address.',
+                    'meta' => [
+                        'field' => 'email',
+                    ],
                 ],
                 [
-                    'id'     => 'password',
+                    'detail' => 'The email may not be greater than 255 characters.',
+                    'meta' => [
+                        'field' => 'email',
+                    ],
+                ],
+                [
                     'detail' => 'The password confirmation does not match.',
+                    'meta' => [
+                        'field' => 'password',
+                    ],
                 ],
             ],
         ]);
@@ -79,19 +91,23 @@ class AuthControllerTest extends TestCase
     public function itWillNotAuthenticateDueToValidationErrors(): void
     {
         $response = $this->json('POST', route('auth.authenticate'), [
-            'email' => 'foo',
+            'email' => str_repeat('bad email', 100),
         ]);
 
         $response->assertStatus(422);
         $response->assertJson([
             'errors' => [
                 [
-                    'id'     => 'email',
                     'detail' => 'The email must be a valid email address.',
+                    'meta' => [
+                        'field' => 'email',
+                    ],
                 ],
                 [
-                    'id'     => 'password',
                     'detail' => 'The password field is required.',
+                    'meta' => [
+                        'field' => 'password',
+                    ],
                 ],
             ],
         ]);
