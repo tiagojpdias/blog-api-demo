@@ -19,10 +19,6 @@ class JsonApi
      */
     public function handle(Request $request, Closure $next)
     {
-        if (! $request->header('Content-Type')) {
-            throw new PreconditionFailedHttpException('Missing Content-Type header');
-        }
-
         if ($request->header('Content-Type') !== 'application/vnd.api+json') {
             throw new PreconditionFailedHttpException('Invalid Content-Type header');
         }
