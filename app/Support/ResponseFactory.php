@@ -135,10 +135,14 @@ class ResponseFactory extends \Illuminate\Routing\ResponseFactory
         $errors = [];
 
         foreach ($exception->errors() as $field => $details) {
-            $errors['errors'][] = [
-                'id'     => $field,
-                'detail' => current($details),
-            ];
+            foreach ($details as $detail) {
+                $errors['errors'][] = [
+                    'detail' => $detail,
+                    'meta'   => [
+                        'field' => $field,
+                    ],
+                ];
+            }
         }
 
         return $this->jsonApiSpec($errors, $exception->status, $headers, $options);
