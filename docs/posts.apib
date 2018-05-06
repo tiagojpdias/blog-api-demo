@@ -1,0 +1,436 @@
+### List Posts [GET /posts]
+Return published Posts in a paginated fashion.
+
++ Parameters
+    + page: 2 (number, optional) - Result page number.
+        + Default: `1`
+    + per_page: 15 (number, optional) - Number of results per page.
+        + Default: `10`
+    + search: foo (string, optional) - String pattern to search for.
+    + sort: name (string, optional) - Result sorting column used.
+        + Default: `created_at`
+    + order: asc (string, optional) - Result sorting order.
+        + Default: `desc`
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "links": {
+                "first": "http:\/\/api.blog.dev\/posts?page=1",
+                "last": "http:\/\/api.blog.dev\/posts?page=1",
+                "prev": null,
+                "next": null
+            },
+            "data": [
+                {
+                    "type": "posts",
+                    "id": "1",
+                    "attributes": {
+                        "title": "Voluptatem in et magni soluta id voluptas.",
+                        "slug": "voluptatem-in-et-magni-soluta-id-voluptas",
+                        "content": "Quia suscipit quia vero enim et voluptatibus. Neque tempora voluptatibus molestias dolor et sed. Qui iure iure recusandae quia perferendis.\\n\\nLibero cum voluptas ipsum. Tempore esse aut suscipit nostrum. Commodi suscipit autem iste minus quis. Soluta rem dolores in id quisquam.\\n\\nNon ut rerum et vero ut et quo. Non earum sint cumque est consequatur. Deleniti quaerat alias quia sunt ex ea qui qui. Aut aut dolor dolor et cum.\\n\\nDolore facilis officia et repellendus. Dolor dolor ex exercitationem et eveniet distinctio aut. Modi repellat non commodi ut error molestias expedita.",
+                        "published_at": "2018-06-22 22:19:09",
+                        "created_at": "2018-05-04 08:03:34",
+                        "updated_at": "2018-05-04 08:03:34"
+                    },
+                    "relationships": {
+                        "author": {
+                            "data": {
+                                "type": "users",
+                                "id": "1"
+                            }
+                        }
+                    }
+                }
+            ],
+            "included": [
+                {
+                    "type": "users",
+                    "id": "1",
+                    "attributes": {
+                        "name": "John Doe",
+                        "email": "john.doe@email.com",
+                        "created_at": "2018-05-05 22:20:32",
+                        "updated_at": "2018-05-05 22:20:32"
+                    }
+                }
+            ],
+            "meta": {
+                "per-page": 10,
+                "total": 1
+            }
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The page must be an integer.",
+                    "meta": {
+                        "field": "page"
+                    }
+                },
+                {
+                    "detail": "The per page must be an integer.",
+                    "meta": {
+                        "field": "per_page"
+                    }
+                },
+                {
+                    "detail": "The search must be a string.",
+                    "meta": {
+                        "field": "search"
+                    }
+                },
+                {
+                    "detail": "The selected sort is invalid.",
+                    "meta": {
+                        "field": "sort"
+                    }
+                },
+                {
+                    "detail": "The selected order is invalid.",
+                    "meta": {
+                        "field": "order"
+                    }
+                }
+            ]
+        }
+
+### List own Posts [GET /posts/own]
+Return own Posts (including unpublished) in a paginated fashion, with filter/search support.
+
++ Parameters
+    + page: 2 (number, optional) - Result page number.
+        + Default: `1`
+    + per_page: 15 (number, optional) - Number of results per page.
+        + Default: `10`
+    + search: foo (string, optional) - String pattern to search for.
+    + published: 1 (boolean, optional) - Apply published/unpublished result filter.
+    + sort: name (string, optional) - Result sorting column used.
+        + Default: `created_at`
+    + order: asc (string, optional) - Result sorting order.
+        + Default: `desc`
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "links": {
+                "first": "http:\/\/api.blog.dev\/posts\/own?page=1",
+                "last": "http:\/\/api.blog.dev\/posts\/own?page=1",
+                "prev": null,
+                "next": null
+            },
+            "data": [
+                {
+                    "type": "posts",
+                    "id": "1",
+                    "attributes": {
+                        "title": "Voluptatem in et magni soluta id voluptas.",
+                        "slug": "voluptatem-in-et-magni-soluta-id-voluptas",
+                        "content": "Quia suscipit quia vero enim et voluptatibus. Neque tempora voluptatibus molestias dolor et sed. Qui iure iure recusandae quia perferendis.\\n\\nLibero cum voluptas ipsum. Tempore esse aut suscipit nostrum. Commodi suscipit autem iste minus quis. Soluta rem dolores in id quisquam.\\n\\nNon ut rerum et vero ut et quo. Non earum sint cumque est consequatur. Deleniti quaerat alias quia sunt ex ea qui qui. Aut aut dolor dolor et cum.\\n\\nDolore facilis officia et repellendus. Dolor dolor ex exercitationem et eveniet distinctio aut. Modi repellat non commodi ut error molestias expedita.",
+                        "published_at": "2018-06-22 22:19:09",
+                        "created_at": "2018-05-04 08:03:34",
+                        "updated_at": "2018-05-04 08:03:34"
+                    }
+                }
+            ],
+            "meta": {
+                "per-page": 10,
+                "total": 1
+            }
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The page must be an integer.",
+                    "meta": {
+                        "field": "page"
+                    }
+                },
+                {
+                    "detail": "The per page must be an integer.",
+                    "meta": {
+                        "field": "per_page"
+                    }
+                },
+                {
+                    "detail": "The search must be a string.",
+                    "meta": {
+                        "field": "search"
+                    }
+                },
+                {
+                    "detail": "The published field must be true or false.",
+                    "meta": {
+                        "field": "published"
+                    }
+                },
+                {
+                    "detail": "The selected sort is invalid.",
+                    "meta": {
+                        "field": "sort"
+                    }
+                },
+                {
+                    "detail": "The selected order is invalid.",
+                    "meta": {
+                        "field": "order"
+                    }
+                }
+            ]
+        }
+
+### Create a new Post [POST /posts]
+Create a new blog post.
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
+    + Body
+        {
+            "title": "Post title",
+            "content": "Post text content",
+            "published_at": "Timestamp in ISO 8601 format: `yyyy-mm-dd hh:mm:ss` (optional)"
+        }
+
++ Response 201 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "posts",
+                "id": "2",
+                "attributes": {
+                    "title": "My First Article",
+                    "slug": "my-first-article",
+                    "content": "Work in progress...",
+                    "published_at": null,
+                    "created_at": "2018-05-04 21:29:20",
+                    "updated_at": "2018-05-04 21:29:20"
+                }
+            }
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The title field is required.",
+                    "meta": {
+                        "field": "title"
+                    }
+                },
+                {
+                    "detail": "The title may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "title"
+                    }
+                },
+                {
+                    "detail": "The content field is required.",
+                    "meta": {
+                        "field": "content"
+                    }
+                },
+                {
+                    "detail": "The published at is not a valid date.",
+                    "meta": {
+                        "field": "published_at"
+                    }
+                }
+            ]
+        }
+
+
+### Read a Post [GET /posts/{post}]
+Read an existing blog post.
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Parameters
+    + post: 1 (number) - Post id
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "posts",
+                "id": "2",
+                "attributes": {
+                    "title": "My First Article",
+                    "slug": "my-first-article",
+                    "content": "Work in progress...",
+                    "published_at": null,
+                    "created_at": "2018-05-04 21:29:20",
+                    "updated_at": "2018-05-04 21:29:20"
+                }
+            }
+        }
+
++ Response 403 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "This action is unauthorized."
+                }
+            ]
+        }
+
++ Response 404 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "Post Not Found"
+                }
+            ]
+        }
+
+### Update a Post [PUT /posts/{post}]
+Update an existing blog post.
+
++ Parameters
+    + post: 1 (number) - Post id
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
+    + Body
+        {
+            "title": "Post title (optional)",
+            "content": "Post article content (optional)",
+            "published_at": "Timestamp in ISO 8601 format: `yyyy-mm-dd hh:mm:ss` (optional)"
+        }
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "posts",
+                "id": "2",
+                "attributes": {
+                    "title": "My First Article",
+                    "slug": "my-first-article",
+                    "content": "Work in progress...",
+                    "published_at": null,
+                    "created_at": "2018-05-04 21:29:20",
+                    "updated_at": "2018-05-04 21:29:20"
+                }
+            }
+        }
+
++ Response 403 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "This action is unauthorized."
+                }
+            ]
+        }
+
++ Response 404 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "Post Not Found"
+                }
+            ]
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The title may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "title"
+                    }
+                },
+                {
+                    "detail": "The published at is not a valid date.",
+                    "meta": {
+                        "field": "published_at"
+                    }
+                }
+            ]
+        }
+
+### Delete a Post [DELETE /posts/{post}]
+Delete an existing blog post.
+
++ Parameters
+    + post: 1 (number) - Post id
+
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "posts",
+                "id": "2",
+                "attributes": {
+                    "title": "My First Article",
+                    "slug": "my-first-article",
+                    "content": "Work in progress...",
+                    "published_at": null,
+                    "created_at": "2018-05-04 21:29:20",
+                    "updated_at": "2018-05-04 21:29:20"
+                }
+            }
+        }
+
++ Response 403 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "This action is unauthorized."
+                }
+            ]
+        }
+
++ Response 404 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "Post Not Found"
+                }
+            ]
+        }
