@@ -15,6 +15,27 @@ class AuthControllerTest extends TestCase
      * @group auth::register
      * @test
      */
+    public function itWillNotRegisterDueToInvalidContentType(): void
+    {
+        $response = $this->json('POST', route('auth.register'), [], [
+            'Content-Type' => 'application/json',
+        ]);
+
+        $response->assertStatus(412);
+        $response->assertJson([
+            'errors' => [
+                [
+                    'id'     => 0,
+                    'detail' => 'Invalid Content-Type header',
+                ],
+            ],
+        ]);
+    }
+
+    /**
+     * @group auth::register
+     * @test
+     */
     public function itWillNotRegisterDueToValidationErrors(): void
     {
         $response = $this->json('POST', route('auth.register'), [
