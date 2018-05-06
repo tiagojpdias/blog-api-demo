@@ -82,3 +82,13 @@ To generate the API documentation, use the following command:
 ```sh
 make docs
 ```
+
+## Missing functionality
+A list of nice to haves that are missing, due to the simple nature of this project:
+
+- Email notifications
+- Password reset functionality
+- No comments, tags or other blog like functionality
+- Usage of UUID or some other form of hash identifiers, instead of incremental ones (for public usage)
+- ACL/Roles
+- Soft deleting
