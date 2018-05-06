@@ -12,10 +12,12 @@ class JsonApi
     /**
      * Handle an incoming request.
      *
-     * @param   \Illuminate\Http\Request $request
-     * @param   Closure                  $next
-     * @throws  PreconditionFailedHttpException|UnauthorizedHttpException
-     * @return  mixed
+     * @param Request $request
+     * @param Closure $next
+     *
+     * @throws PreconditionFailedHttpException|UnauthorizedHttpException
+     *
+     * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
