@@ -9,6 +9,11 @@ Install PHP dependencies:
 composer install
 ```
 
+Install JS dependencies:
+```sh
+npm install
+```
+
 Copy the `.env` file:
 ```sh
 cp .env.example .env
@@ -67,4 +72,13 @@ feat(Users): add password recovery
 |    +---------> Scope of the work.
 |
 +--------------> Type: chore, docs, feat, fix, hack, refactor, style, or test.
+```
+
+### Documentation
+The API documentation can be accessed at `http://<domain>/docs/index.html`
+
+To generate the API documentation, use the following command:
+
+```sh
+make docs
 ```
