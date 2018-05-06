@@ -30,6 +30,7 @@ class PostControllerTest extends TestCase
                 16,
             ],
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -108,6 +109,7 @@ class PostControllerTest extends TestCase
             'order'    => 'asc',
             'authors'  => $authors,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -174,6 +176,7 @@ class PostControllerTest extends TestCase
             'order'     => 'waz',
             'published' => 7,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -238,6 +241,7 @@ class PostControllerTest extends TestCase
             'order'     => 'asc',
             'published' => false,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -277,6 +281,7 @@ class PostControllerTest extends TestCase
     public function itFailsToReadPostDueToNotFoundError(): void
     {
         $response = $this->json('GET', route('posts.read', ['post' => 123]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -302,6 +307,7 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -327,6 +333,7 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -359,6 +366,7 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -391,6 +399,7 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('GET', route('posts.read', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -421,6 +430,7 @@ class PostControllerTest extends TestCase
             'title'        => str_repeat('foo', 100),
             'published_at' => 123,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -460,6 +470,7 @@ class PostControllerTest extends TestCase
             'content'      => 'Article content.',
             'published_at' => '2000-01-02 00:11:22',
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -487,6 +498,7 @@ class PostControllerTest extends TestCase
     public function itFailsToUpdatePostDueToNotFoundError(): void
     {
         $response = $this->json('PUT', route('posts.update', ['post' => 123]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -510,6 +522,7 @@ class PostControllerTest extends TestCase
         $post = factory(Post::class)->create();
 
         $response = $this->json('PUT', route('posts.update', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -539,6 +552,7 @@ class PostControllerTest extends TestCase
             'content'      => false,
             'published_at' => 123,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -582,6 +596,7 @@ class PostControllerTest extends TestCase
             'content'      => 'Article content.',
             'published_at' => '2000-01-02 00:11:22',
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -609,6 +624,7 @@ class PostControllerTest extends TestCase
     public function itFailsToDeletePostDueToNotFoundError(): void
     {
         $response = $this->json('DELETE', route('posts.delete', ['post' => 123]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -632,6 +648,7 @@ class PostControllerTest extends TestCase
         $post = factory(Post::class)->create();
 
         $response = $this->json('DELETE', route('posts.delete', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -657,6 +674,7 @@ class PostControllerTest extends TestCase
         ]);
 
         $response = $this->json('DELETE', route('posts.delete', ['post' => $post->id]), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 

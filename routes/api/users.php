@@ -9,7 +9,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-$router->prefix('users')->middleware(['api-auth'])->group(function () use ($router) {
+$router->prefix('users')->middleware(['json-api', 'jwt-auth'])->group(function () use ($router) {
     $router->get('/', [
         'as'   => 'users.list',
         'uses' => UserController::class.'@list',

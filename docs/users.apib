@@ -14,8 +14,9 @@ List available Users.
     + order: asc (string, optional) - Result sorting order.
         + Default: `desc`
 
-+ Request (application/vnd.api+json)
++ Request
     + Header
+        Content-Type: application/vnd.api+json
         Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
 
 + Response 200 (application/vnd.api+json)
@@ -98,6 +99,7 @@ Get the profile attributes from the current User.
 
 + Request
     + Header
+        Content-Type: application/vnd.api+json
         Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
 
 + Response 200 (application/vnd.api+json)
@@ -132,6 +134,7 @@ Update the current User's profile attributes.
 
 + Request
     + Header
+        Content-Type: application/vnd.api+json
         Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
 
 + Response 200 (application/vnd.api+json)

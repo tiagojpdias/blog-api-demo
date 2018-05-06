@@ -24,6 +24,7 @@ class UserControllerTest extends TestCase
             'sort'     => 'baz',
             'order'    => 'waz',
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -79,6 +80,7 @@ class UserControllerTest extends TestCase
             'sort'     => 'id',
             'order'    => 'asc',
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -115,7 +117,9 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToReadTheUserProfileDueToMissingApiToken(): void
     {
-        $response = $this->json('GET', route('users.profile'));
+        $response = $this->json('GET', route('users.profile'), [], [
+            'Content-Type' => 'application/vnd.api+json',
+        ]);
 
         $response->assertStatus(401);
         $response->assertJson([
@@ -135,6 +139,7 @@ class UserControllerTest extends TestCase
     public function itSuccessfullyReadsTheUserProfile(): void
     {
         $response = $this->json('GET', route('users.profile'), [], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -159,7 +164,9 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToUpdateProfileDueToMissingApiToken(): void
     {
-        $response = $this->json('PUT', route('users.profile.update'));
+        $response = $this->json('PUT', route('users.profile.update'), [], [
+            'Content-Type' => 'application/vnd.api+json',
+        ]);
 
         $response->assertStatus(401);
         $response->assertJson([
@@ -183,6 +190,7 @@ class UserControllerTest extends TestCase
             'email'    => str_repeat('bad email', 100),
             'password' => 123,
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 
@@ -229,6 +237,7 @@ class UserControllerTest extends TestCase
             'password'              => 's3cr3t',
             'password_confirmation' => 's3cr3t',
         ], [
+            'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
 

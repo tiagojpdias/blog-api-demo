@@ -40,7 +40,8 @@ class Kernel extends HttpKernel
      * {@inheritdoc}
      */
     protected $routeMiddleware = [
-        'api-auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'json-api' => Middleware\JsonApi::class,
+        'jwt-auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];

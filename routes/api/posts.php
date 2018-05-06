@@ -9,7 +9,7 @@ use App\Http\Controllers\PostController;
 |
 */
 
-$router->prefix('posts')->middleware(['api-auth'])->group(function () use ($router) {
+$router->prefix('posts')->middleware(['json-api', 'jwt-auth'])->group(function () use ($router) {
     $router->get('/', [
         'as'   => 'posts.list',
         'uses' => PostController::class.'@list',

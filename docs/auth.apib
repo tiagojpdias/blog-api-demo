@@ -3,7 +3,10 @@
 ### Create a new User [POST /auth/register]
 Register a new User account.
 
-+ Request (application/vnd.api+json)
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+
     + Body
 
         {
@@ -88,6 +91,10 @@ Register a new User account.
 ### User authentication [POST /auth/authenticate]
 Authenticate a User and return a JSON Web Token to use on other endpoints.
 
++ Request
+    + Header
+        Content-Type: application/vnd.api+json
+
 + Response 201 (application/vnd.api+json)
     + Body
 
@@ -136,8 +143,9 @@ Authenticate a User and return a JSON Web Token to use on other endpoints.
 ### Invalidate API token [PUT /auth/invalidate]
 Invalidate the current JSON Web Token.
 
-+ Request (application/vnd.api+json)
++ Request
     + Header
+        Content-Type: application/vnd.api+json
         Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
 
 + Response 200 (application/vnd.api+json)
@@ -164,8 +172,9 @@ Invalidate the current JSON Web Token.
 ### Refresh API token [POST /auth/refresh]
 Authenticate a User and return a JSON Web Token to use on other endpoints.
 
-+ Request (application/vnd.api+json)
++ Request
     + Header
+        Content-Type: application/vnd.api+json
         Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
 
 + Response 201 (application/vnd.api+json)

@@ -9,7 +9,7 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-$router->prefix('auth')->group(function () use ($router) {
+$router->prefix('auth')->middleware(['json-api'])->group(function () use ($router) {
     $router->post('/register', [
         'as'   => 'auth.register',
         'uses' => AuthController::class.'@register',
@@ -24,11 +24,11 @@ $router->prefix('auth')->group(function () use ($router) {
         'as'   => 'auth.invalidate',
         'uses' => AuthController::class.'@invalidate',
     ])
-    ->middleware(['api-auth']);
+    ->middleware(['jwt-auth']);
 
     $router->post('/refresh', [
         'as'   => 'auth.refresh',
         'uses' => AuthController::class.'@refresh',
     ])
-    ->middleware(['api-auth']);
+    ->middleware(['jwt-auth']);
 });
