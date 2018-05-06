@@ -1,0 +1,29 @@
+FORMAT: 1A
+HOST: http://api.blog.dev
+
+# Blog API
+This is the documentation for this rather simple Blog API, and it should describe all its functionality.
+
+Due note that, depending on your access privileges, some API functionality may be prohibited.
+
+## HTTP verbs
+Like with any RESTful API, HTTP verbs are used to determine the intention of the API call.
+
+Unless stated otherwise, the following HTTP verbs will mean:
+
+| Verb     | Description     |
+| :------------- | :------------- |
+| POST | Create a new resource |
+| GET | Retrieve an existing resource |
+| PUT | Update an existing resource |
+| DELETE | Delete an existing resource |
+
+# Group Auth
+Endpoints for User authentication and related operations
+
+<!-- include(auth.apib) -->
+
+# Group Users
+Endpoints for listing Post authors and User profile operations
+
+<!-- include(users.apib) -->

@@ -1,0 +1,191 @@
+## Auth [/auth]
+
+### Create a new User [POST /auth/register]
+Register a new User account.
+
++ Request (application/vnd.api+json)
+    + Body
+
+        {
+            "email": "User email address",
+            "name": "User name",
+            "password": "User password",
+            "password_confirmation": "User password confirmation"
+        }
+
++ Response 201 (application/vnd.api+json)
+    + Body
+
+        {
+            "data": {
+                "type": "users",
+                "id": "1",
+                "attributes": {
+                    "name": "John Doe",
+                    "email": "john.doe@email.com",
+                    "created_at": "2018-05-05 22:20:32",
+                    "updated_at": "2018-05-05 22:20:32"
+                }
+            }
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+
+        {
+            "errors": [
+                {
+                    "detail": "The name field is required.",
+                    "meta": {
+                        "field": "name"
+                    }
+                },
+                {
+                    "detail": "The name may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "name"
+                    }
+                },
+                {
+                    "detail": "The email field is required.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The email must be a valid email address.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The email may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The password field is required.",
+                    "meta": {
+                        "field": "password"
+                    }
+                },
+                {
+                    "detail": "The password confirmation does not match.",
+                    "meta": {
+                        "field": "password"
+                    }
+                },
+                {
+                    "detail": "The password confirmation field is required.",
+                    "meta": {
+                        "field": "password_confirmation"
+                    }
+                }
+            ]
+        }
+
+### User authentication [POST /auth/authenticate]
+Authenticate a User and return a JSON Web Token to use on other endpoints.
+
++ Response 201 (application/vnd.api+json)
+    + Body
+
+        {
+            "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTUxODQ3OSwiZXhwIjoxNTI1NTIyMDc5LCJuYmYiOjE1MjU1MTg0NzksImp0aSI6InJYT0FYN2c5OE5xZ3g0QkYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ei7fCwHsWO4MIxYs1XGf9A72AYgeLP0-mi7hiMWjoWvdU51oGq1Az7fuzEgkZa3X7LA-NJh_RJudcSNExBOSmwxxx",
+            "token_type": "bearer",
+            "expires_in": 3600
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+
+        {
+            "errors": {
+                "title": "Unauthorised",
+                "detail": "Invalid credentials"
+            }
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+
+        {
+            "errors": [
+                {
+                    "detail": "The email field is required.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The email must be a valid email address.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The password field is required."
+                    "meta": {
+                        "field": "password"
+                    }
+                }
+            ]
+        }
+
+### Invalidate API token [PUT /auth/invalidate]
+Invalidate the current JSON Web Token.
+
++ Request (application/vnd.api+json)
+    + Header
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+
+        {
+            "meta": {
+                "info": "The token has been invalidated"
+            }
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "Token has expired"
+                }
+            ]
+        }
+
+### Refresh API token [POST /auth/refresh]
+Authenticate a User and return a JSON Web Token to use on other endpoints.
+
++ Request (application/vnd.api+json)
+    + Header
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 201 (application/vnd.api+json)
+
+    + Body
+
+        {
+            "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTUxODQ3OSwiZXhwIjoxNTI1NTIyMDc5LCJuYmYiOjE1MjU1MTg0NzksImp0aSI6InJYT0FYN2c5OE5xZ3g0QkYiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Ei7fCwHsWO4MIxYs1XGf9A72AYgeLP0-mi7hiMWjoWvdU51oGq1Az7fuzEgkZa3X7LA-NJh_RJudcSNExBOSmwxxx",
+            "token_type": "bearer",
+            "expires_in": 3600
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+
+        {
+            "errors": [
+                {
+                    "id": 0,
+                    "detail": "Token has expired"
+                }
+            ]
+        }

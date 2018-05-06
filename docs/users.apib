@@ -1,0 +1,198 @@
+## Users [/users]
+
+### List Users [GET /users]
+List available Users.
+
++ Parameters
+    + page: 2 (number, optional) - Result page number.
+        + Default: `1`
+    + per_page: 15 (number, optional) - Number of results per page.
+        + Default: `10`
+    + search: foo (string, optional) - String pattern to search for.
+    + sort: name (string, optional) - Result sorting column used.
+        + Default: `id`
+    + order: asc (string, optional) - Result sorting order.
+        + Default: `desc`
+
++ Request (application/vnd.api+json)
+    + Header
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "links": {
+                "first": "http:\/\/api.blog.dev\/users?page=1",
+                "last": "http:\/\/api.blog.dev\/users?page=1",
+                "prev": null,
+                "next": null
+            },
+            "data": [
+                {
+                    "type": "users",
+                    "id": "1",
+                    "attributes": {
+                        "name": "John Doe",
+                        "email": "john.doe@email.com",
+                        "created_at": "2018-05-05 22:20:32",
+                        "updated_at": "2018-05-05 22:20:32"
+                    }
+                }
+            ],
+            "meta": {
+                "per-page": 10,
+                "total": 1
+            }
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+            {
+                "id": 0,
+                    "detail": "Token has expired"
+                }
+            ]
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The page must be an integer.",
+                    "meta": {
+                        "field": "page"
+                    }
+                },
+                {
+                    "detail": "The per page must be an integer.",
+                    "meta": {
+                        "field": "per_page"
+                    }
+                },
+                {
+                    "detail": "The search must be a string.",
+                    "meta": {
+                        "field": "search"
+                    }
+                },
+                {
+                    "detail": "The selected sort is invalid.",
+                    "meta": {
+                        "field": "sort"
+                    }
+                },
+                {
+                    "detail": "The selected order is invalid.",
+                    "meta": {
+                        "field": "order"
+                    }
+                }
+            ]
+        }
+
+### Read User profile [GET /users/profile]
+Get the profile attributes from the current User.
+
++ Request
+    + Header
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "users",
+                "id": "1",
+                "attributes": {
+                    "name": "John Doe",
+                    "email": "john.doe@email.com",
+                    "created_at": "2018-05-05 22:20:32",
+                    "updated_at": "2018-05-05 22:20:32"
+                }
+            }
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+            {
+                "id": 0,
+                    "detail": "Token has expired"
+                }
+            ]
+        }
+
+
+### Update User profile [PUT /users/profile]
+Update the current User's profile attributes.
+
++ Request
+    + Header
+        Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkuYmxvZy5kZXZcL2F1dGhcL2F1dGhlbnRpY2F0ZSIsImlhdCI6MTUyNTM3OTI0NCwiZXhwIjoxNTI1MzgyODQ0LCJuYmYiOjE1MjUzNzkyNDQsImp0aSI6ImtxQjdBQXdFcHBTZURNUVQiLCJzdWIiOjEsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.Rxv7XOrdPlZ0GedXUdLLZ6rl0kUT5P9LUWNT4jOhFGtCYuXCF3nNFi_5Owfy6Oqx8brJIRRFqUPg5EN9AFvcOQ
+
++ Response 200 (application/vnd.api+json)
+    + Body
+        {
+            "data": {
+                "type": "users",
+                "id": "1",
+                "attributes": {
+                    "name": "John Doe",
+                    "email": "john.doe@email.com",
+                    "created_at": "2018-05-05 22:20:32",
+                    "updated_at": "2018-05-05 22:20:32"
+                }
+            }
+        }
+
++ Response 401 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+            {
+                "id": 0,
+                    "detail": "Token has expired"
+                }
+            ]
+        }
+
++ Response 422 (application/vnd.api+json)
+    + Body
+        {
+            "errors": [
+                {
+                    "detail": "The name may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "name"
+                    }
+                },
+                {
+                    "detail": "The email must be a valid email address.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The email may not be greater than 255 characters.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The email has already been taken.",
+                    "meta": {
+                        "field": "email"
+                    }
+                },
+                {
+                    "detail": "The password confirmation does not match.",
+                    "meta": {
+                        "field": "password"
+                    }
+                }
+            ]
+        }
