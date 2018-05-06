@@ -32,31 +32,31 @@ class UserControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'page',
                     ],
                 ],
                 [
                     'detail' => 'The per page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'per_page',
                     ],
                 ],
                 [
                     'detail' => 'The search must be a string.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'search',
                     ],
                 ],
                 [
                     'detail' => 'The selected sort is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'sort',
                     ],
                 ],
                 [
                     'detail' => 'The selected order is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'order',
                     ],
                 ],
@@ -191,25 +191,25 @@ class UserControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The name may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'name',
                     ],
                 ],
                 [
                     'detail' => 'The email must be a valid email address.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'email',
                     ],
                 ],
                 [
                     'detail' => 'The email may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'email',
                     ],
                 ],
                 [
                     'detail' => 'The password confirmation does not match.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'password',
                     ],
                 ],

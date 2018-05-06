@@ -28,25 +28,25 @@ class AuthControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The name may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'name',
                     ],
                 ],
                 [
                     'detail' => 'The email must be a valid email address.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'email',
                     ],
                 ],
                 [
                     'detail' => 'The email may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'email',
                     ],
                 ],
                 [
                     'detail' => 'The password confirmation does not match.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'password',
                     ],
                 ],
@@ -99,13 +99,13 @@ class AuthControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The email must be a valid email address.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'email',
                     ],
                 ],
                 [
                     'detail' => 'The password field is required.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'password',
                     ],
                 ],

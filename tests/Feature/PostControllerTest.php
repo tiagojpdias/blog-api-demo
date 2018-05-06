@@ -38,49 +38,49 @@ class PostControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'page',
                     ],
                 ],
                 [
                     'detail' => 'The per page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'per_page',
                     ],
                 ],
                 [
                     'detail' => 'The search must be a string.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'search',
                     ],
                 ],
                 [
                     'detail' => 'The selected sort is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'sort',
                     ],
                 ],
                 [
                     'detail' => 'The selected order is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'order',
                     ],
                 ],
                 [
                     'detail' => 'The selected authors.0 is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'authors.0',
                     ],
                 ],
                 [
                     'detail' => 'The selected authors.1 is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'authors.1',
                     ],
                 ],
                 [
                     'detail' => 'The selected authors.2 is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'authors.2',
                     ],
                 ],
@@ -182,37 +182,37 @@ class PostControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'page',
                     ],
                 ],
                 [
                     'detail' => 'The per page must be an integer.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'per_page',
                     ],
                 ],
                 [
                     'detail' => 'The search must be a string.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'search',
                     ],
                 ],
                 [
                     'detail' => 'The published field must be true or false.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'published',
                     ],
                 ],
                 [
                     'detail' => 'The selected sort is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'sort',
                     ],
                 ],
                 [
                     'detail' => 'The selected order is invalid.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'order',
                     ],
                 ],
@@ -429,19 +429,19 @@ class PostControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The title may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'title',
                     ],
                 ],
                 [
                     'detail' => 'The content field is required.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'content',
                     ],
                 ],
                 [
                     'detail' => 'The published at is not a valid date.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'published_at',
                     ],
                 ],
@@ -547,19 +547,19 @@ class PostControllerTest extends TestCase
             'errors' => [
                 [
                     'detail' => 'The title may not be greater than 255 characters.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'title',
                     ],
                 ],
                 [
                     'detail' => 'The content must be a string.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'content',
                     ],
                 ],
                 [
                     'detail' => 'The published at is not a valid date.',
-                    'meta' => [
+                    'meta'   => [
                         'field' => 'published_at',
                     ],
                 ],
