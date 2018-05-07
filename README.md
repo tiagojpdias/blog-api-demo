@@ -24,6 +24,11 @@ Generate encryption key:
 php artisan key:generate
 ```
 
+Generate JWT secret key:
+```sh
+php artisan jwt:secret
+```
+
 Run migrations (refresh) and seed database:
 ```sh
 php artisan migrate:refresh --seed
