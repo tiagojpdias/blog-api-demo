@@ -11,32 +11,32 @@ use App\Http\Controllers\PostController;
 
 $router->prefix('posts')->middleware(['json-api', 'jwt-auth'])->group(function () use ($router) {
     $router->get('/', [
-        'as'   => 'posts.list',
+        'as'   => 'posts::list',
         'uses' => PostController::class.'@list',
     ]);
 
     $router->get('/own', [
-        'as'   => 'posts.list.own',
+        'as'   => 'posts::list::own',
         'uses' => PostController::class.'@listOwn',
     ]);
 
     $router->post('/', [
-        'as'   => 'posts.create',
+        'as'   => 'posts::create',
         'uses' => PostController::class.'@create',
     ]);
 
     $router->get('/{post}', [
-        'as'   => 'posts.read',
+        'as'   => 'posts::read',
         'uses' => PostController::class.'@read',
     ]);
 
     $router->put('/{post}', [
-        'as'   => 'posts.update',
+        'as'   => 'posts::update',
         'uses' => PostController::class.'@update',
     ]);
 
     $router->delete('/{post}', [
-        'as'   => 'posts.delete',
+        'as'   => 'posts::delete',
         'uses' => PostController::class.'@delete',
     ]);
 });

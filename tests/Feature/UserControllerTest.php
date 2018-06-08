@@ -17,7 +17,7 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToGetUsersDueToValidationErrors(): void
     {
-        $response = $this->json('GET', route('users.list'), [
+        $response = $this->json('GET', route('users::list'), [
             'page'     => 'foo',
             'per_page' => 'bar',
             'search'   => 123,
@@ -73,7 +73,7 @@ class UserControllerTest extends TestCase
     {
         factory(User::class, 20)->create();
 
-        $response = $this->json('GET', route('users.list'), [
+        $response = $this->json('GET', route('users::list'), [
             'page'     => 2,
             'per_page' => 5,
             'search'   => 'a',
@@ -117,7 +117,7 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToReadTheUserProfileDueToMissingApiToken(): void
     {
-        $response = $this->json('GET', route('users.profile'), [], [
+        $response = $this->json('GET', route('users::profile'), [], [
             'Content-Type' => 'application/vnd.api+json',
         ]);
 
@@ -138,7 +138,7 @@ class UserControllerTest extends TestCase
      */
     public function itSuccessfullyReadsTheUserProfile(): void
     {
-        $response = $this->json('GET', route('users.profile'), [], [
+        $response = $this->json('GET', route('users::profile'), [], [
             'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
@@ -164,7 +164,7 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToUpdateProfileDueToMissingApiToken(): void
     {
-        $response = $this->json('PUT', route('users.profile.update'), [], [
+        $response = $this->json('PUT', route('users::profile::update'), [], [
             'Content-Type' => 'application/vnd.api+json',
         ]);
 
@@ -185,7 +185,7 @@ class UserControllerTest extends TestCase
      */
     public function itFailsToUpdatePostDueToValidationErrors(): void
     {
-        $response = $this->json('PUT', route('users.profile.update'), [
+        $response = $this->json('PUT', route('users::profile::update'), [
             'name'     => str_repeat('foo', 100),
             'email'    => str_repeat('bad email', 100),
             'password' => 123,
@@ -231,7 +231,7 @@ class UserControllerTest extends TestCase
      */
     public function itSuccessfullyUpdatesPost(): void
     {
-        $response = $this->json('PUT', route('users.profile.update'), [
+        $response = $this->json('PUT', route('users::profile::update'), [
             'name'                  => 'John Doe',
             'email'                 => 'john.doe@email.com',
             'password'              => 's3cr3t',

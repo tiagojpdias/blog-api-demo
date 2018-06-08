@@ -17,7 +17,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillNotRegisterDueToInvalidContentType(): void
     {
-        $response = $this->json('POST', route('auth.register'), [], [
+        $response = $this->json('POST', route('auth::register'), [], [
             'Content-Type' => 'application/json',
         ]);
 
@@ -38,7 +38,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillNotRegisterDueToValidationErrors(): void
     {
-        $response = $this->json('POST', route('auth.register'), [
+        $response = $this->json('POST', route('auth::register'), [
             'name'     => str_repeat('foo', 100),
             'email'    => str_repeat('bad email', 100),
             'password' => 123,
@@ -83,7 +83,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillSuccessfullyRegister(): void
     {
-        $response = $this->json('POST', route('auth.register'), [
+        $response = $this->json('POST', route('auth::register'), [
             'name'                  => 'John Doe',
             'email'                 => 'john.doe@email.com',
             'password'              => 's3cr3t',
@@ -114,7 +114,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillNotAuthenticateDueToValidationErrors(): void
     {
-        $response = $this->json('POST', route('auth.authenticate'), [
+        $response = $this->json('POST', route('auth::authenticate'), [
             'email' => str_repeat('bad email', 100),
         ], [
             'Content-Type' => 'application/vnd.api+json',
@@ -145,7 +145,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillNotAuthenticateDueToInvalidCredentials(): void
     {
-        $response = $this->json('POST', route('auth.authenticate'), [
+        $response = $this->json('POST', route('auth::authenticate'), [
             'email'    => 'john.doe@email.com',
             'password' => 's3cr3t',
         ], [
@@ -171,7 +171,7 @@ class AuthControllerTest extends TestCase
             'password' => 's3cr3t',
         ]);
 
-        $response = $this->json('POST', route('auth.authenticate'), [
+        $response = $this->json('POST', route('auth::authenticate'), [
             'email'    => $user->email,
             'password' => 's3cr3t',
         ], [
@@ -192,7 +192,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillSuccessfullyInvalidate(): void
     {
-        $response = $this->json('PUT', route('auth.invalidate'), [], [
+        $response = $this->json('PUT', route('auth::invalidate'), [], [
             'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
@@ -213,7 +213,7 @@ class AuthControllerTest extends TestCase
     {
         $token = $this->generateApiUserToken();
 
-        $response = $this->json('PUT', route('auth.invalidate'), [], [
+        $response = $this->json('PUT', route('auth::invalidate'), [], [
             'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $token),
         ]);
@@ -226,7 +226,7 @@ class AuthControllerTest extends TestCase
         ]);
 
         // Perform a second request with the already invalidated token
-        $response = $this->json('PUT', route('auth.invalidate'), [], [
+        $response = $this->json('PUT', route('auth::invalidate'), [], [
             'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $token),
         ]);
@@ -248,7 +248,7 @@ class AuthControllerTest extends TestCase
      */
     public function itWillSuccessfullyRefresh(): void
     {
-        $response = $this->json('POST', route('auth.refresh'), [], [
+        $response = $this->json('POST', route('auth::refresh'), [], [
             'Content-Type'  => 'application/vnd.api+json',
             'Authorization' => sprintf('Bearer %s', $this->generateApiUserToken()),
         ]);
