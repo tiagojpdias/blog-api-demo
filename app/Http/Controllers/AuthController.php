@@ -75,7 +75,7 @@ class AuthController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = $this->auth->attempt($credentials)) {
             return response()->jsonApiSpec([
                 'errors' => [
                     'title'  => 'Unauthorised',
